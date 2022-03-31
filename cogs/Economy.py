@@ -67,7 +67,7 @@ class Economy(commands.Cog):
             b = int(b) + self.baseWork
             requests.post(updateUser, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"You recieved {self.baseWork} dabloons, you now have {b} dabloons.")
-            next = datetime.now() + timedelta(hours=24)
+            next = datetime.now() + timedelta(hours=6)
             requests.post(updateUser, data={"f1": "workTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
