@@ -28,7 +28,7 @@ class Economy(commands.Cog):
         obj = {"f1": "dailyTimer", "f2": userID}
         checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
-        result = datetime.strftime(result, "%X")
+        result = datetime.strptime(result, "%X")
         print(f"rn variable value is {rn} and its type is {type(rn)}")
         print(f"result variable value is {result} and its type is {type(result)}")
         if (rn == result):
