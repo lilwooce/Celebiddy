@@ -31,12 +31,13 @@ class Economy(commands.Cog):
         result = datetime.strptime(result, "%H:%M:%S")
         if (rn >= result.time()):
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
-            print(balance.text)
             r = balance.text.strip('\"')
             r = int(r) + self.baseDaily
-            print(r)
-            upd = requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
-            ctx.channel.send(f"You recieved {self.baseDaily} dabloons, you now have {r} dabloons.")
+            requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
+            await ctx.channel.send(f"You recieved {self.baseDaily} dabloons, you now have {r} dabloons.")
+            requests.post(updateUser, data={"f1": "dailyTimer", "f2": datetime.now().time() + timedelta(hours=24), "f3": userID}, headers={"User-Agent": "XY"})
+        else:
+            await ctx.channel.send(f"Your daily cooldown in ongoing, please wait {result.time - rn} hours.")
 
 def setup(bot):
     bot.add_cog(Economy(bot))
