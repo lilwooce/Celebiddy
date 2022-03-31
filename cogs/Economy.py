@@ -39,7 +39,7 @@ class Economy(commands.Cog):
             next = datetime.now() + timedelta(hours=24)
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
-            calc = rn - result
+            calc = result - rn
             print(calc)
             await ctx.channel.send(f"Your daily cooldown in ongoing, please wait  hour(s).")
 
