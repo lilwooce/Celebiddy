@@ -3,6 +3,7 @@ import discord
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import requests
+import math
 import os
 from .User import hasAccount
 
@@ -41,7 +42,7 @@ class Economy(commands.Cog):
         else:
             calc = result - rn
             print(calc)
-            await ctx.channel.send(f"Your daily cooldown in ongoing, please wait  hour(s).")
+            await ctx.channel.send(f"Your daily cooldown in ongoing, please wait {math.ciel(calc.seconds/3600)} hour(s).")
 
 def setup(bot):
     bot.add_cog(Economy(bot))
