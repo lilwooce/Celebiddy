@@ -58,10 +58,7 @@ async def on_guild_remove(guild):
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
-        try:
-            bot.load_extension(f'cogs.{filename[:-3]}')
-        except Exception as e:
-            print(f'Failed to load extension cogs.{filename[:-3]}.', file=sys.stderr)
-            traceback.print_exc()
+        bot.load_extension(f'cogs.{filename[:-3]}')
+        
 
 bot.run(token)
