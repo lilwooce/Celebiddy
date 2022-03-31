@@ -27,7 +27,9 @@ class Economy(commands.Cog):
         rn = datetime.now().time()
         obj = {"f1": "dailyTimer", "f2": userID}
         checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
+        print(f"result before strip is {result}")
         result = checktime.text.strip('\"')
+        print(f"result after strip is {result}")
         result = datetime.strptime(result, "%H:%M:%S")
         print(f"rn variable value is {rn} and its type is {type(rn)}")
         print(f"result variable value is {result} and its type is {type(result)}")
