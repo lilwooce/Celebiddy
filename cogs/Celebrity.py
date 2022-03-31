@@ -42,7 +42,7 @@ class Celebrity(commands.Cog):
         await ctx.channel.send("Series: ")
         series = await self.bot.wait_for('message', check=check, timeout=30)
 
-        r = requests.post(addCeleb, data={"f1": name, "f2": desc, "f3": occupation, "f4": attribute, "f5": series}, headers={"User-Agent": "XY"})
+        r = requests.post(addCeleb, data={"f1": name, "f2": desc, "f3": occupation, "f4": attribute, "f5": int(series)}, headers={"User-Agent": "XY"})
         print(r.status_code)
 
 def setup(bot):
