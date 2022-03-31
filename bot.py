@@ -23,13 +23,6 @@ def get_prefix(client, message):
 
 bot = commands.Bot(command_prefix="b", intents=intents, description="Bid on and collect your favorite celebs.")
 
-'''initial_extensions = {
-    "cogs.Config",
-    "cogs.Auction",
-    "cogs.Economy",
-    "cogs.User"
-}'''
-
 @bot.event
 async def on_ready():
     print(f'{bot.user} has connected')
@@ -48,14 +41,6 @@ async def on_guild_remove(guild):
     obj = {"q1": guild.id}
     result = requests.post(removePrefix, data=obj, headers={"User-Agent": "XY"})
     print(result.status_code)
-
-
-'''for extension in initial_extensions:
-    try:
-        bot.load_extension(extension)
-    except Exception as e:
-        print(f'Failed to load extension {extension}.', file=sys.stderr)
-        traceback.print_exc()'''
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):

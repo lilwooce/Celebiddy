@@ -17,6 +17,7 @@ class Config(commands.Cog, name="Configuration"):
     async def on_ready(self):
         print(f"{self.__class__.__name__} Cog has been loaded\n----")
 
+    @commands.has_any_role("Admin", "Administrator", "Moderator", 630778701105201152) 
     @commands.command()
     async def prefix(self, ctx, new_prefix=None):
         if(new_prefix):
