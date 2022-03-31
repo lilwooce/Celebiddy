@@ -21,14 +21,14 @@ def get_prefix(client, message):
     prefix = result.text.strip('\"')
     return prefix
 
-bot = commands.Bot(command_prefix="", intents=intents, description="Bid on and collect your favorite celebs.")
+bot = commands.Bot(command_prefix="b", intents=intents, description="Bid on and collect your favorite celebs.")
 
-initial_extensions = {
+'''initial_extensions = {
     "cogs.Config",
     "cogs.Auction",
     "cogs.Economy",
     "cogs.User"
-}
+}'''
 
 @bot.event
 async def on_ready():
@@ -49,12 +49,19 @@ async def on_guild_remove(guild):
     print(result.status_code)
 
 
-for extension in initial_extensions:
+'''for extension in initial_extensions:
     try:
         bot.load_extension(extension)
     except Exception as e:
         print(f'Failed to load extension {extension}.', file=sys.stderr)
-        traceback.print_exc()
+        traceback.print_exc()'''
 
+for filename in os.listdir('./lib/cogs'):
+    if filename.endswith('.py'):
+        try:
+            bot.load_extension(f'cogs.{filename[:-3]}')
+        except Exception as e:
+            print(f'Failed to load extension cogs.{filename[:-3]}.', file=sys.stderr)
+            traceback.print_exc()
 
 bot.run(token)
