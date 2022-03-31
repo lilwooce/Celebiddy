@@ -28,7 +28,7 @@ class Economy(commands.Cog):
         obj = {"f1": "dailyTimer", "f2": userID}
         checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
-        result = datetime.strptime(result, "%H:%M:%S:%s")
+        result = datetime.strptime(result, "%H:%M:%S")
         if (rn >= result.time()):
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             r = balance.text.strip('\"')
@@ -36,6 +36,7 @@ class Economy(commands.Cog):
             requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"You recieved {self.baseDaily} dabloons, you now have {r} dabloons.")
             next = datetime.now() + timedelta(hours=24)
+            next = next[:-6]
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next.time(), "f3": userID}, headers={"User-Agent": "XY"})
         else:
             await ctx.channel.send(f"Your daily cooldown in ongoing, please wait {result.time - rn} hours.")
