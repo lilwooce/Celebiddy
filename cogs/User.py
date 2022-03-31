@@ -1,3 +1,4 @@
+from ast import alias
 from discord.ext import commands
 import discord
 from datetime import datetime, timedelta
@@ -16,6 +17,11 @@ class User(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print(f"{self.__class__.__name__} Cog has been loaded\n----")
+    
+    @commands.command(aliases=['b'])
+    async def balance(self, ctx):
+        checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        await ctx.channel.send(f"You currently have {checkBalance.text.strip('\"')} dabloon(s).")
 
 async def hasAccount(ctx):
     userID = ctx.author.id
