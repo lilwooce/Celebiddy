@@ -7,6 +7,7 @@ import os
 
 load_dotenv()
 getUser = os.getenv('USER_URL')
+addUser = os.getenv('ADD_USER')
 
 class User(commands.Cog):
     def __init__(self, bot):
@@ -25,6 +26,12 @@ async def hasAccount(ctx):
         return True
     else:
         return False
+
+async def addAccount(ctx):
+    userID = ctx.author.id
+    obj = {"f1": userID}
+    result = requests.post(addUser, params=obj, headers={"User-Agent": "XY"})
+    print(result.status_code)
 
 def setup(bot):
     bot.add_cog(User(bot))

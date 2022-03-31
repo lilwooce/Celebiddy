@@ -11,7 +11,7 @@ token = os.getenv('DISCORD_TOKEN')
 getPrefix = os.getenv('GET_PREFIX')
 addPrefix = os.getenv('ADD_PREFIX')
 updatePrefix = os.getenv('UPDATE_PREFIX')
-removePrefix = os.getenv('REMOVE-PREFIX')
+removePrefix = os.getenv('REMOVE_PREFIX')
 intents = discord.Intents.default()
 intents.members = True
 
