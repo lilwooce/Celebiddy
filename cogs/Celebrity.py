@@ -32,15 +32,15 @@ class Celebrity(commands.Cog):
             return m.author.id == userID and m.channel == channel
 
         await ctx.channel.send("Name: ")
-        name = await self.bot.wait_for('message', check=check)
+        name = await self.bot.wait_for('message', check=check, timeout=30)
         await ctx.channel.send("Description: ")
-        desc = await self.bot.wait_for('message', check=check)
+        desc = await self.bot.wait_for('message', check=check, timeout=30)
         await ctx.channel.send("Occupation: ")
-        occupation = await self.bot.wait_for('message', check=check)
+        occupation = await self.bot.wait_for('message', check=check, timeout=30)
         await ctx.channel.send("Attribute: ")
-        attribute = await self.bot.wait_for('message', check=check)
+        attribute = await self.bot.wait_for('message', check=check, timeout=30)
         await ctx.channel.send("Series: ")
-        series = await self.bot.wait_for('message', check=check)
+        series = await self.bot.wait_for('message', check=check, timeout=30)
 
         r = requests.post(addCeleb, data={"f1": name, "f2": desc, "f3": occupation, "f4": attribute, "f5": series}, headers={"User-Agent": "XY"})
         print(r.status_code)
