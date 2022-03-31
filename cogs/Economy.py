@@ -34,7 +34,9 @@ class Economy(commands.Cog):
             print(balance.text)
             r = balance.text.strip('\"')
             r = int(r) + self.baseDaily
+            print(r)
             upd = requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
+            ctx.channel.send(f"You recieved {self.baseDaily} dabloons, you now have {r} dabloons.")
 
 def setup(bot):
     bot.add_cog(Economy(bot))

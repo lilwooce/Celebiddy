@@ -32,7 +32,6 @@ async def addAccount(ctx):
     userID = ctx.author.id
     obj = {"f1": userID}
     result = requests.post(addUser, data=obj, headers={"User-Agent": "XY"})
-    print(f"add account requests completed with a status code of {result.status_code}")
 
 def setup(bot):
     bot.add_cog(User(bot))
