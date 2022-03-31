@@ -39,7 +39,7 @@ class Economy(commands.Cog):
             next = datetime.now() + timedelta(hours=24)
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
-            await ctx.channel.send(f"Your daily cooldown in ongoing, please wait {result.time().hour - rn.time().hour} hour(s).")
+            await ctx.channel.send(f"Your daily cooldown in ongoing, please wait {rn.time().hour - result.time().hour} hour(s).")
 
 def setup(bot):
     bot.add_cog(Economy(bot))
