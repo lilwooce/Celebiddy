@@ -24,18 +24,19 @@ class Economy(commands.Cog):
     async def daily(self, ctx):
         print("daily check completed")
         userID = ctx.author.id
-        rn = datetime.now()
+        rn = datetime.now().time()
         obj = {"f1": "dailyTimer", "f2": userID}
-        checktime = requests.get(getUser, params=obj)
+        checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
+        result = datetime.strftime(result, "%X")
         print(f"rn variable value is {rn} and its type is {type(rn)}")
         print(f"result variable value is {result} and its type is {type(result)}")
         if (rn == result):
-            balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID})
+            balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             print(balance.text)
             r = balance.text.strip('\"')
             r = int(r) + self.baseDaily
-            upd = requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID})
+            upd = requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
 
 def setup(bot):
     bot.add_cog(Economy(bot))
