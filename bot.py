@@ -24,7 +24,10 @@ def get_prefix(client, message):
 bot = commands.Bot(command_prefix="", intents=intents, description="Bid on and collect your favorite celebs.")
 
 initial_extensions = {
-    "cogs.Config"
+    "cogs.Config",
+    "cogs.Auction",
+    "cogs.Economy",
+    "cogs.User"
 }
 
 @bot.event
