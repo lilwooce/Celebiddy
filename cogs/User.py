@@ -21,7 +21,9 @@ async def hasAccount(ctx):
     userID = ctx.author.id
     obj = {"f1": "user", "f2": userID}
     result = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
+    print(result.text)
     id = result.text.strip('\"')
+    print(id)
     if (id == str(userID)):
         return True
     else:
