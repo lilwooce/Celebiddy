@@ -22,13 +22,14 @@ async def hasAccount(ctx):
     obj = {"f1": "user", "f2": userID}
     result = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
     id = result.text.strip('\"')
-    print(id)
-    print(userID)
+    print(f"id variable is type {type(id)}")
+    print(f"userID variable is type {type(userID)}")
     if (id == userID):
         return True
     else:
         await addAccount(ctx)
-        return True
+        await ctx.channel.send("No account found... creating")
+        return False
 
 async def addAccount(ctx):
     userID = ctx.author.id
