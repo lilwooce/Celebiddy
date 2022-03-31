@@ -11,7 +11,7 @@ getUser = os.getenv('USER_URL')
 updateUser = os.getenv('UPDATE_USER')
 
 class Economy(commands.Cog):
-    def __init__(self, bot, baseDaily):
+    def __init__(self, bot):
         self.bot = bot
         self.baseDaily = 500
 
