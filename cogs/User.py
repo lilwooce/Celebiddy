@@ -32,6 +32,7 @@ async def addAccount(ctx):
     userID = ctx.author.id
     obj = {"f1": userID}
     result = requests.post(addUser, params=obj, headers={"User-Agent": "XY"})
+    print(result.text)
     print(result.status_code)
 
 def setup(bot):
