@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import requests
 import os
-from User import hasAccount
+from .User import hasAccount
 
 load_dotenv()
 getUser = os.getenv('USER_URL')

@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import requests
 import os
-from User import hasAccount
+from .User import hasAccount
 
 class Auction(commands.Cog):
     def __init__(self, bot):
