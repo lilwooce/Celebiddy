@@ -40,7 +40,8 @@ class Economy(commands.Cog):
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = rn - result
-            await ctx.channel.send(f"Your daily cooldown in ongoing, please wait {calc.time.hour} hour(s).")
+            print(calc)
+            await ctx.channel.send(f"Your daily cooldown in ongoing, please wait  hour(s).")
 
 def setup(bot):
     bot.add_cog(Economy(bot))
