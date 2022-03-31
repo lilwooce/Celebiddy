@@ -30,6 +30,7 @@ async def hasAccount(ctx):
 
 async def addAccount(ctx):
     userID = ctx.author.id
+    print(userID)
     obj = {"f1": userID}
     result = requests.post(addUser, params=obj, headers={"User-Agent": "XY"})
     print(result.text)
