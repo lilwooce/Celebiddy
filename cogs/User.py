@@ -22,6 +22,8 @@ async def hasAccount(ctx):
     obj = {"f1": "user", "f2": userID}
     result = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
     id = result.text.strip('\"')
+    print(id)
+    print(userID)
     if (id == userID):
         return True
     else:
@@ -30,11 +32,9 @@ async def hasAccount(ctx):
 
 async def addAccount(ctx):
     userID = ctx.author.id
-    print(userID)
     obj = {"f1": userID}
     result = requests.post(addUser, data=obj, headers={"User-Agent": "XY"})
-    print(result.text)
-    print(result.status_code)
+    print(f"add account requests completed with a status code of {result.status_code}")
 
 def setup(bot):
     bot.add_cog(User(bot))
