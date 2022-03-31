@@ -38,7 +38,7 @@ class Economy(commands.Cog):
             s = streak.text.strip('\"')
             r = int(r) + self.baseDaily + (100 * int(s))
             requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
-            await ctx.channel.send(f"You recieved {self.baseDaily} dabloons, you now have {r} dabloons.")
+            await ctx.channel.send(f"You recieved {self.baseDaily + (100* int(s))} dabloons, you now have {r} dabloons.")
             next = datetime.now() + timedelta(hours=24)
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dailyStreak", "f2": int(s) + 1, "f3": userID}, headers={"User-Agent": "XY"})
