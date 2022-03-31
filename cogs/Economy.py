@@ -33,12 +33,15 @@ class Economy(commands.Cog):
         result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
+            streak = requests.get(getUser, params={"f1": "dailyStreak", "f2": userID}, headers={"User-Agent": "XY"})
             r = balance.text.strip('\"')
-            r = int(r) + self.baseDaily
+            s = streak.text.strip('\"')
+            r = int(r) + self.baseDaily + (100 * int(s))
             requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"You recieved {self.baseDaily} dabloons, you now have {r} dabloons.")
             next = datetime.now() + timedelta(hours=24)
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
+            requests.post(updateUser, data={"f1": "dailyStreak", "f2": int(s) + 1, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
             print(calc)
