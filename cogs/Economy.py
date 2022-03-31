@@ -27,7 +27,7 @@ class Economy(commands.Cog):
         rn = datetime.now().time()
         obj = {"f1": "dailyTimer", "f2": userID}
         checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
-        print(f"result before strip is {result}")
+        print(f"result before strip is {checktime.text}")
         result = checktime.text.strip('\"')
         print(f"result after strip is {result}")
         result = datetime.strptime(result, "%H:%M:%S")
