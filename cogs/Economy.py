@@ -17,7 +17,7 @@ class Economy(commands.Cog):
     async def on_ready(self):
         print(f"{self.__class__.__name__} Cog has been loaded\n----")
 
-    @commands.Cog.listener()
+    @commands.command()
     @commands.check(hasAccount)
     async def daily(self, ctx):
         await ctx.channel.send("you have an account")
