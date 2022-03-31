@@ -8,10 +8,12 @@ from .User import hasAccount
 
 load_dotenv()
 getUser = os.getenv('USER_URL')
+updateUser = os.getenv('UPDATE_USER')
 
 class Economy(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot, baseDaily):
         self.bot = bot
+        self.baseDaily = 500
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -20,8 +22,17 @@ class Economy(commands.Cog):
     @commands.command()
     @commands.check(hasAccount)
     async def daily(self, ctx):
-        await ctx.channel.send("you have an account")
-        return
+        userID = ctx.author.id
+        rn = datetime.now()
+        obj = {"f1": "dailyTimer", "f2": userID}
+        checktime = requests.get(getUser, params=obj)
+        result = checktime.text.strip('\"')
+        if (rn == result):
+            balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID})
+            print(balance.text)
+            r = balance.text.strip('\"')
+            r = int(r) + self.baseDaily
+            upd = requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID})
 
 def setup(bot):
     bot.add_cog(Economy(bot))
