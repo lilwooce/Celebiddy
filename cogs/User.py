@@ -24,7 +24,7 @@ async def hasAccount(ctx):
     id = result.text.strip('\"')
     print(f"id variable is type {type(id)}")
     print(f"userID variable is type {type(userID)}")
-    if (id == userID):
+    if (id == str(userID)):
         return True
     else:
         await addAccount(ctx)
