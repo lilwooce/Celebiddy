@@ -28,7 +28,7 @@ class Economy(commands.Cog):
         obj = {"f1": "dailyTimer", "f2": userID}
         checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
-        result = result[:-6]
+        result = result[:-7]
         result = datetime.strptime(result, "%H:%M:%S")
         if (rn >= result.time()):
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
