@@ -25,7 +25,8 @@ async def hasAccount(ctx):
     if (id == userID):
         return True
     else:
-        return False
+        addAccount(ctx)
+        return True
 
 async def addAccount(ctx):
     userID = ctx.author.id

@@ -19,7 +19,8 @@ class Economy(commands.Cog):
 
     @commands.Cog.listener()
     @commands.check(hasAccount)
-    async def daily(self):
+    async def daily(self, ctx):
+        await ctx.channel.send("you have an account")
         return
 
 def setup(bot):
