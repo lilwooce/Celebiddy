@@ -30,7 +30,7 @@ class Economy(commands.Cog):
         result = checktime.text.strip('\"')
         result = result[:-7]
         result = datetime.strptime(result, "%H:%M:%S")
-        if (rn >= result.time()):
+        if (rn >= result):
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             r = balance.text.strip('\"')
             r = int(r) + self.baseDaily
