@@ -42,7 +42,7 @@ class Economy(commands.Cog):
         else:
             calc = result - rn
             print(calc)
-            await ctx.channel.send(f"Your daily cooldown in ongoing, please wait {math.ciel(calc.seconds/3600)} hour(s).")
+            await ctx.channel.send(f"Your daily cooldown in ongoing, please wait {math.ceil(calc.seconds/3600)} hour(s).")
 
 def setup(bot):
     bot.add_cog(Economy(bot))
