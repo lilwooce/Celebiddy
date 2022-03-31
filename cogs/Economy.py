@@ -10,6 +10,9 @@ from .User import hasAccount
 load_dotenv()
 getUser = os.getenv('USER_URL')
 updateUser = os.getenv('UPDATE_USER')
+getCeleb = os.getenv('GET_CELEB')
+addCeleb = os.getenv('ADD_CELEB')
+updateCeleb = os.getenv('UPDATE_CELEB')
 
 class Economy(commands.Cog):
     def __init__(self, bot):
@@ -51,19 +54,19 @@ class Economy(commands.Cog):
     async def work(self, ctx):
         userID = ctx.author.id
         rn = datetime.now()
-        checktime = requests.get(getUser, params={"f1": "workTimer", "f2": userID}, headers={"User-Agent": "XY"})
+        checktime = requests.get(getCeleb, params={"f1": "workTimer", "f2": userID}, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
         result = result[:-7]
         print(result)
         result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
-            balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
+            balance = requests.get(getCeleb, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             b = balance.text.strip('\"')
             b = int(b) + self.baseWork
-            requests.post(updateUser, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
+            requests.post(updateCeleb, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"You recieved {self.baseWork} dabloons, you now have {b} dabloons.")
             next = datetime.now() + timedelta(hours=24)
-            requests.post(updateUser, data={"f1": "workTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
+            requests.post(updateCeleb, data={"f1": "workTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
             await ctx.channel.send(f"Your work cooldown in ongoing, please wait {math.floor(calc.seconds/3600)} hour(s).")
