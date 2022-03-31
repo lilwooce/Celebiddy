@@ -38,7 +38,7 @@ async def on_ready():
 
 @bot.event
 async def on_guild_join(guild):
-    obj = {"f1": guild.id, "f2": '!'}
+    obj = {"f1": guild.id, "f2": 'b'}
     result = requests.post(addPrefix, data=obj, headers={"User-Agent": "XY"})
     print(result.status_code)
 
