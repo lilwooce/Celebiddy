@@ -26,7 +26,7 @@ class Economy(commands.Cog):
         userID = ctx.author.id
         rn = datetime.now().time()
         obj = {"f1": "dailyTimer", "f2": userID}
-        checktime = requests.get(getUser, data=obj, headers={"User-Agent": "XY"})
+        checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
         print(checktime.status_code)
         print(f"result before strip is {checktime.text}")
         result = checktime.text.strip('\"')
