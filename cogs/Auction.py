@@ -3,9 +3,8 @@ import discord
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import requests
-import os 
-import cogs.User as User
-from User import hasAccount
+import os
+from .User import hasAccount
 
 class Auction(commands.Cog):
     def __init__(self, bot):
