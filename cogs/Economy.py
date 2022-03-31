@@ -22,11 +22,14 @@ class Economy(commands.Cog):
     @commands.command()
     @commands.check(hasAccount)
     async def daily(self, ctx):
+        print("daily check completed")
         userID = ctx.author.id
         rn = datetime.now()
         obj = {"f1": "dailyTimer", "f2": userID}
         checktime = requests.get(getUser, params=obj)
         result = checktime.text.strip('\"')
+        print(f"rn variable value is {rn} and its type is {type(rn)}")
+        print(f"result variable value is {result} and its type is {type(result)}")
         if (rn == result):
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID})
             print(balance.text)
