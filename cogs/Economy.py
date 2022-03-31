@@ -29,7 +29,7 @@ class Economy(commands.Cog):
         checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
         result = datetime.strptime(result, "%H:%M:%S")
-        if (rn >= result):
+        if (rn >= result.time()):
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             print(balance.text)
             r = balance.text.strip('\"')
