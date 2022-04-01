@@ -41,8 +41,9 @@ class Celebrity(commands.Cog):
         attribute = await self.bot.wait_for('message', check=check, timeout=30)
         await ctx.channel.send("Series: ")
         series = await self.bot.wait_for('message', check=check, timeout=30)
-
-        r = requests.post(addCeleb, data={"f1": name, "f2": desc, "f3": occupation, "f4": attribute, "f5": int(series)}, headers={"User-Agent": "XY"})
+        obj = {"f1": name, "f2": desc, "f3": occupation, "f4": attribute, "f5": int(series)}
+        print(obj)
+        r = requests.post(addCeleb, data=obj, headers={"User-Agent": "XY"})
         print(r.status_code)
 
 def setup(bot):
