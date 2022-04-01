@@ -39,7 +39,7 @@ class Auction(commands.Cog):
         series = await self.bot.wait_for('message', check=check, timeout=30)
         series = series.content
 
-        if (exists(ctx, name, series)):
+        if (await exists(ctx, name, series)):
             description = requests.get(getCeleb, params={"f1": "description", "f2": name})
             occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": name})
             attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": name})
