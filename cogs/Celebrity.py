@@ -33,14 +33,19 @@ class Celebrity(commands.Cog):
 
         await ctx.channel.send("Name: ")
         name = await self.bot.wait_for('message', check=check, timeout=30)
+        name = name.content
         await ctx.channel.send("Description: ")
         desc = await self.bot.wait_for('message', check=check, timeout=30)
+        desc = desc.content
         await ctx.channel.send("Occupation: ")
         occupation = await self.bot.wait_for('message', check=check, timeout=30)
+        occupation = occupation.content
         await ctx.channel.send("Attribute: ")
         attribute = await self.bot.wait_for('message', check=check, timeout=30)
+        attribute = attribute.content
         await ctx.channel.send("Series: ")
         series = await self.bot.wait_for('message', check=check, timeout=30)
+        series = series.content
         obj = {"f1": name, "f2": desc, "f3": occupation, "f4": attribute, "f5": int(series)}
         print(obj)
         r = requests.post(addCeleb, data=obj, headers={"User-Agent": "XY"})
