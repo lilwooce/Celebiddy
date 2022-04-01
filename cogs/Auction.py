@@ -56,6 +56,8 @@ async def exists(ctx, name, series):
     r = requests.get(getCeleb, params={"f1": "series", "f2": name}, headers={"User-Agent": "XY"})
     n = result.text.strip('\"')
     s = r.text.strip('\"')
+    print(f"passed var is {name} type is {type(name)} and database var is {n} type is {type(n)}")
+    print(f"passed var is {series} type is {type(series)}  and database var is {s} type is {type(s)}")
     if (name == n and series == s):
         return True
     else:
