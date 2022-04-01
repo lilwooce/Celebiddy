@@ -50,8 +50,6 @@ class Celebrity(commands.Cog):
         obj = {"f1": name, "f2": desc, "f3": occupation, "f4": attribute, "f5": int(series)}
         await ctx.channel.send(f"You made a celeb with the attributes {obj}")
         r = requests.post(addCeleb, data=obj, headers={"User-Agent": "XY"})
-        print(r.text)
-        print(r.status_code)
 
 def setup(bot):
     bot.add_cog(Celebrity(bot))
