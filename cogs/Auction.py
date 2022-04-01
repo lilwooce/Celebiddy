@@ -40,6 +40,8 @@ class Auction(commands.Cog):
         series = series.content
 
         if (await exists(ctx, name, series)):
+            localTime = datetime.now(timezone.utc).astimezone().isoformat()
+            print(localTime)
             description = requests.get(getCeleb, params={"f1": "description", "f2": name})
             occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": name})
             attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": name})
