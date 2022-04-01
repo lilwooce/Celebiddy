@@ -48,6 +48,7 @@ class Auction(commands.Cog):
             embed.add_field(name="Occupation", value=occupation, inline=True)
             embed.add_field(name="Attribute", value=attribute, inline=True)
             embed.timestamp = datetime.now(timezone.utc).astimezone().isoformat()
+            embed.set_image(url=f"{self.picsLink}{name}{series}.jpg")
             await ctx.channel.send(embed=embed)
 
 async def exists(ctx, name, series):
