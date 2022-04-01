@@ -49,7 +49,8 @@ class Auction(commands.Cog):
             embed.add_field(name="Description", value=description, inline=True)
             embed.add_field(name="Occupation", value=occupation, inline=True)
             embed.add_field(name="Attribute", value=attribute, inline=True)
-            embed.set_image(url=f"{self.picsLink}{name}{series}.jpg")
+            print(f"{self.picsLink}{name}{series}.jpg?")
+            embed.set_image(url=f"{self.picsLink}{name}{series}.jpg?")
             await ctx.channel.send(embed=embed)
 
 async def exists(ctx, name, series):
