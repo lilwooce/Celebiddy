@@ -40,19 +40,19 @@ class Auction(commands.Cog):
         series = series.content
 
         if (await exists(ctx, name, series)):
-            localTime = datetime.now(timezone.utc).astimezone().isoformat()
-            print(localTime)
             description = requests.get(getCeleb, params={"f1": "description", "f2": name})
             description = description.text.strip('\"')
             occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": name})
             occupation = occupation.text.strip('\"')
             attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": name})
             attribute = attribute.text.strip('\"')
+            image = requests.get(getCeleb, params={"f1": "image", "f2": name})
+            image = image.text.strip('\"')
             embed=discord.Embed(title=name, description="")
             embed.add_field(name="Description", value=description, inline=True)
             embed.add_field(name="Occupation", value=occupation, inline=True)
             embed.add_field(name="Attribute", value=attribute, inline=True)
-            embed.set_image(url="https://cdn.discordapp.com/attachments/743655404583649326/959285067711123527/Zendaya_Coleman_1.jpg")
+            embed.set_image(url=image)
             await ctx.channel.send(embed=embed)
 
 async def exists(ctx, name, series):
