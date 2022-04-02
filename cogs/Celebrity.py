@@ -43,6 +43,8 @@ class Celebrity(commands.Cog):
 
         obj = {"f1": "image", "f2": image, "f3": name, "f4": "series", "f5": int(series)}
         r = requests.post(updateCeleb, data=obj, headers={"User-Agent": "XY"})
+        print(r.status_code)
+        print(r.text)
 
 def setup(bot):
     bot.add_cog(Celebrity(bot))
