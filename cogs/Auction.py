@@ -69,7 +69,7 @@ async def getInfo(ctx, n, s):
         attribute = attribute.text.strip('\"')
         image = requests.get(getCeleb, params={"f1": "image", "f2": n}, headers={"User-Agent": "XY"})
         print(image.text)
-        image = image.text.strip("\"")
+        image = image.text.replace("\\", "")
         print(image)
         return description,occupation,attribute,image
 
