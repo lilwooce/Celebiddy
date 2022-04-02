@@ -60,14 +60,14 @@ async def exists(ctx, name, series):
 
 async def getInfo(ctx, n, s):
     if (await exists(ctx, n, s)):
-        description = requests.get(getCeleb, params={"f1": "description", "f2": n})
+        description = requests.get(getCeleb, params={"f1": "description", "f2": n}, headers={"User-Agent": "XY"})
         print(f"status code is {description.status_code}")
         description = description.text.strip('\"')
-        occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": n})
+        occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": n}, headers={"User-Agent": "XY"})
         occupation = occupation.text.strip('\"')
-        attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": n})
+        attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": n}, headers={"User-Agent": "XY"})
         attribute = attribute.text.strip('\"')
-        image = requests.get(getCeleb, params={"f1": "image", "f2": n})
+        image = requests.get(getCeleb, params={"f1": "image", "f2": n}, headers={"User-Agent": "XY"})
         image = image.text.strip('\"')
         print(f"{description}{occupation}{attribute}{image}")
         return description,occupation,attribute,image
