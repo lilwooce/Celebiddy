@@ -48,6 +48,7 @@ class Auction(commands.Cog):
             attribute = attribute.text.strip('\"')
             image = requests.get(getCeleb, params={"f1": "image", "f2": name})
             image = image.text.strip('\"')
+            print(f"{description}{occupation}{attribute}{image}")
             embed=discord.Embed(title=name, description="")
             embed.add_field(name="Description", value=description, inline=True)
             embed.add_field(name="Occupation", value=occupation, inline=True)
