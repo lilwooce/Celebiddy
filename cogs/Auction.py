@@ -69,8 +69,7 @@ async def getInfo(ctx, n, s):
         attribute = attribute.text.strip('\"')
         image = requests.get(getCeleb, params={"f1": "image", "f2": n}, headers={"User-Agent": "XY"})
         image = image.text.strip("\\")
-        print(image.text)
-        return description,occupation,attribute,image.text
+        return description,occupation,attribute,image
 
 def setup(bot):
     bot.add_cog(Auction(bot))
