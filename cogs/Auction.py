@@ -41,6 +41,7 @@ class Auction(commands.Cog):
 
         if (await exists(ctx, name, series)):
             description = requests.get(getCeleb, params={"f1": "description", "f2": name})
+            print(f"status code is {description.status_code}")
             description = description.text.strip('\"')
             occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": name})
             occupation = occupation.text.strip('\"')
