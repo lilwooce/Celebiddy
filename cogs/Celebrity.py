@@ -11,7 +11,7 @@ getUser = os.getenv('USER_URL')
 updateUser = os.getenv('UPDATE_USER')
 getCeleb = os.getenv('GET_CELEB')
 addCeleb = os.getenv('ADD_CELEB')
-
+updateCeleb = os.getenv('UPDATE_CELEB')
 
 class Celebrity(commands.Cog):
     def __init__(self, bot):
@@ -34,22 +34,15 @@ class Celebrity(commands.Cog):
         await ctx.channel.send("Name: ")
         name = await self.bot.wait_for('message', check=check, timeout=30)
         name = name.content
-        await ctx.channel.send("Description: ")
-        desc = await self.bot.wait_for('message', check=check, timeout=30)
-        desc = desc.content
-        await ctx.channel.send("Occupation: ")
-        occupation = await self.bot.wait_for('message', check=check, timeout=30)
-        occupation = occupation.content
-        await ctx.channel.send("Attribute: ")
-        attribute = await self.bot.wait_for('message', check=check, timeout=30)
-        attribute = attribute.content
         await ctx.channel.send("Series: ")
         series = await self.bot.wait_for('message', check=check, timeout=30)
         series = series.content
+        await ctx.channel.send("Image: ")
+        image = await self.bot.wait_for('message', check=check, timeout=30)
+        image = image.attachments[0].url
 
-        obj = {"f1": name, "f2": desc, "f3": occupation, "f4": attribute, "f5": int(series)}
-        await ctx.channel.send(f"You made a celeb with the attributes {obj}")
-        r = requests.post(addCeleb, data=obj, headers={"User-Agent": "XY"})
+        obj = {"f1": "image", "f2": image, "f3": name, "f4": "series", "f5": int(series)}
+        r = requests.post(updateCeleb, data=obj, headers={"User-Agent": "XY"})
 
 def setup(bot):
     bot.add_cog(Celebrity(bot))
