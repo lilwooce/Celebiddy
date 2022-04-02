@@ -38,23 +38,14 @@ class Auction(commands.Cog):
         series = await self.bot.wait_for('message', check=check, timeout=30)
         series = series.content
 
-        if (await exists(ctx, name, series)):
-            description = requests.get(getCeleb, params={"f1": "description", "f2": name})
-            print(f"status code is {description.status_code}")
-            description = description.text.strip('\"')
-            occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": name})
-            occupation = occupation.text.strip('\"')
-            attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": name})
-            attribute = attribute.text.strip('\"')
-            image = requests.get(getCeleb, params={"f1": "image", "f2": name})
-            image = image.text.strip('\"')
-            print(f"{description}{occupation}{attribute}{image}")
-            embed=discord.Embed(title=name, description="")
-            embed.add_field(name="Description", value=description, inline=True)
-            embed.add_field(name="Occupation", value=occupation, inline=True)
-            embed.add_field(name="Attribute", value=attribute, inline=True)
-            embed.set_image(url=image)
-            await ctx.channel.send(embed=embed)
+        d,o,a,i = await getInfo(ctx, name, series)
+
+        embed=discord.Embed(title=name, description="")
+        embed.add_field(name="Description", value=d, inline=True)
+        embed.add_field(name="Occupation", value=o, inline=True)
+        embed.add_field(name="Attribute", value=a, inline=True)
+        embed.set_image(url=i)
+        await ctx.channel.send(embed=embed)
 
 async def exists(ctx, name, series):
     result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
@@ -66,6 +57,20 @@ async def exists(ctx, name, series):
     else:
         await ctx.channel.send("This celebrity does not exist in database please add.")
         return False
+
+async def getInfo(ctx, n, s):
+    if (await exists(ctx, n, s)):
+        description = requests.get(getCeleb, params={"f1": "description", "f2": n})
+        print(f"status code is {description.status_code}")
+        description = description.text.strip('\"')
+        occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": n})
+        occupation = occupation.text.strip('\"')
+        attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": n})
+        attribute = attribute.text.strip('\"')
+        image = requests.get(getCeleb, params={"f1": "image", "f2": n})
+        image = image.text.strip('\"')
+        print(f"{description}{occupation}{attribute}{image}")
+        return description,occupation,attribute,image
 
 def setup(bot):
     bot.add_cog(Auction(bot))
