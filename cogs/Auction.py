@@ -87,7 +87,7 @@ class Auction(commands.Cog):
             await ctx.send(f"You bid {amount} dabloon(s) on {name}")
 
     async def stopAuction(self, ctx, time, name):
-        asyncio.sleep(time*3600)
+        await asyncio.sleep(time*3600)
         winner = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
         winner = winner.text.strip("\"")
         amount = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
@@ -95,7 +95,7 @@ class Auction(commands.Cog):
         requests.post(removeAuction, data={"f1": name}, headers={"User-Agent": "XY"})
         requests.post(updateCeleb, data={"f1": "owner", "f2": winner, "f3": name}, headers={"User-Agent": "XY"})
         user = self.bot.get_user(winner)
-        await self.bot.send_message(user, f"Congrats! You won the auction for {name} with {amount} dabloons")
+        await user.send(f"Congrats! You won the auction for {name} with {amount} dabloons")
 
 
 async def exists(ctx, name, series):
