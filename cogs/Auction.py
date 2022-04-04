@@ -112,6 +112,8 @@ async def exists(ctx, name, series):
 async def isAuction(ctx, name):
     result = requests.get(getAuction, params={"f1": "celebrity", "f2": name}, headers={"User-Agent": "XY"})
     n = result.text.strip('\"')
+    print(name)
+    print(n)
     if (name == n):
         return True
     else:
