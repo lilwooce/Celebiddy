@@ -93,6 +93,9 @@ class Economy(commands.Cog):
         else:
             calc = result - rn
             await ctx.channel.send(f"Your beg cooldown in ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds)} second(s).")
+    
+    async def trade(self, ctx):
+        return
 
 
 def setup(bot):

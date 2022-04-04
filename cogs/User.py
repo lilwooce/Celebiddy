@@ -1,6 +1,7 @@
 from ast import alias
 from discord.ext import commands
 import discord
+import math
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import requests
@@ -23,6 +24,45 @@ class User(commands.Cog):
         checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
         checkBalance = checkBalance.text.strip('\"')
         await ctx.channel.send(f"{ctx.author.mention} you currently have {checkBalance} dabloon(s).")
+        
+    @commands.command(aliases=['cd'])
+    async def cooldowns(self, ctx):
+        rn = datetime.now()
+        dailyCD = requests.get(getUser, params={"f1": "dailyTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        dailyCD = dailyCD.text.strip('\"')
+        dailyCD = dailyCD[:-7]
+        workCD = requests.get(getUser, params={"f1": "workTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        workCD = workCD.text.strip('\"')
+        workCD = workCD[:-7]
+        begCD = requests.get(getUser, params={"f1": "begTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        begCD = begCD.text.strip('\"')
+        begCD = begCD[:-7]
+
+        dailyCD = dailyCD - rn
+        workCD = workCD - rn
+        begCD = begCD - rn
+
+        dailyCD = calcTime(dailyCD.seconds)
+        workCD = calcTime(workCD.seconds)
+        begCD = calcTime(begCD.seconds)
+
+        if(dailyCD < 0):
+            dailyCD = "is available"
+        elif(workCD < 0):
+            workCD = "is available"
+        elif(begCD < 0):
+            begCD = "is available"
+        
+        embed=discord.embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
+        await ctx.channel.send(embed=embed)
+
+def calcTime(time):
+    if(time<3600 and time>60):
+        return f"in {time/60} minute(s)"
+    elif (time >= 3600):
+        return f"in {time/3600} hour(s)"
+    else:
+        return  f"in {time} second(s)"
 
 async def hasAccount(ctx):
     userID = ctx.author.id
