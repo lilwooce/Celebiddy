@@ -109,7 +109,7 @@ class Auction(commands.Cog):
 def random_color():
     rgbl=[255,0,0]
     random.shuffle(rgbl)
-    return tuple(rgbl)
+    return discord.Color.from_rgb(rgbl)
 
 async def exists(ctx, name, series):
     result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
