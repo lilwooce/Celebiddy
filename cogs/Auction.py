@@ -88,7 +88,7 @@ class Auction(commands.Cog):
             await ctx.send(f"You bid {amount} dabloon(s) on {name}")
 
     async def stopAuction(self, ctx, time, name):
-        await asyncio.sleep(time*3600)
+        await asyncio.sleep(time)
         winner = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
         winner = winner.text.strip("\"")
         amount = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
