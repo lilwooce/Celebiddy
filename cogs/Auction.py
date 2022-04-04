@@ -127,7 +127,7 @@ async def isAuction(ctx, name):
         return False
 
 async def isOwner(ctx, name):
-    result = requests.get(getAuction, params={"f1": "celebrity", "f2": name}, headers={"User-Agent": "XY"})
+    result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
     n = result.text.strip('\"')
     result = requests.get(getCeleb, params={"f1": "owner", "f2": name}, headers={"User-Agent": "XY"})
     o = result.text.strip('\"')
