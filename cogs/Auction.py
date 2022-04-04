@@ -58,14 +58,12 @@ class Auction(commands.Cog):
             requests.post(addAuction, data={"f1": userID, "f2": name, "f3": 0, "f4": userID}, headers={"User-Agent": "XY"})
             await self.stopAuction(ctx, int(endTime), name, embed)
 
-    @commands.command(aliases=["as"])
+    '''@commands.command(aliases=["as"])
     async def auctions(self, ctx):
             embed = discord.Embed(title="Auctions", description="")
             current = requests.get(getAuction, params={"f1": "*"}, headers={"User-Agent": "XY"})    
             print(current.text[0])
-            print(current.text)
-            for auction in current.text:
-                print(auction["celebrity"])
+            print(current.text)'''
     
     @commands.command()
     async def bid(self, ctx):
