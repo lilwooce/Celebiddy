@@ -48,16 +48,17 @@ class Auction(commands.Cog):
         endTime = await self.bot.wait_for('message', check=check, timeout=30)
         endTime = endTime.content
 
-        d,o,a,i = await getInfo(ctx, name, series)
-        embed=discord.Embed(title=name, description="")
-        embed.add_field(name="Description", value=d, inline=True)
-        embed.add_field(name="Occupation", value=o, inline=True)
-        embed.add_field(name="Attribute", value=a, inline=True)
-        embed.set_image(url=i)
-        await ctx.channel.send(embed=embed)
+        if(isOwner(ctx, name)):
+            d,o,a,i = await getInfo(ctx, name, series)
+            embed=discord.Embed(title=name, description="")
+            embed.add_field(name="Description", value=d, inline=True)
+            embed.add_field(name="Occupation", value=o, inline=True)
+            embed.add_field(name="Attribute", value=a, inline=True)
+            embed.set_image(url=i)
+            await ctx.channel.send(embed=embed)
 
-        requests.post(addAuction, data={"f1": userID, "f2": name, "f3": 0, "f4": userID}, headers={"User-Agent": "XY"})
-        await self.stopAuction(ctx, int(endTime), name)
+            requests.post(addAuction, data={"f1": userID, "f2": name, "f3": 0, "f4": userID}, headers={"User-Agent": "XY"})
+            await self.stopAuction(ctx, int(endTime), name)
 
     @commands.command(aliases=["as"])
     async def auctions(self, ctx):
@@ -120,6 +121,17 @@ async def isAuction(ctx, name):
         return True
     else:
         await ctx.channel.send("This celebrity is not currently in auction.")
+        return False
+
+async def isOwner(ctx, name):
+    result = requests.get(getAuction, params={"f1": "celebrity", "f2": name}, headers={"User-Agent": "XY"})
+    n = result.text.strip('\"')
+    result = requests.get(getAuction, params={"f1": "owner", "f2": name}, headers={"User-Agent": "XY"})
+    o = result.text.strip('\"')
+    if (name == n and ctx.author.id == o):
+        return True
+    else:
+        await ctx.channel.send("You do not own this Celebrity.")
         return False
 
 async def getInfo(ctx, n, s):
