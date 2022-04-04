@@ -49,7 +49,7 @@ class User(commands.Cog):
         workCD = calcTime(workCD.seconds)
         begCD = calcTime(begCD.seconds)
         
-        embed=discord.embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
+        embed=discord.Embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
         await ctx.channel.send(embed=embed)
 
 def calcTime(time):
