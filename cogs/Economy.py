@@ -88,11 +88,11 @@ class Economy(commands.Cog):
             b = int(b) + add
             requests.post(updateUser, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"You recieved {add} dabloons, you now have {b} dabloons.")
-            next = datetime.now() + timedelta(minutes=5)
+            next = datetime.now() + timedelta(minutes=1)
             requests.post(updateUser, data={"f1": "begTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
-            await ctx.channel.send(f"Your beg cooldown in ongoing, please wait {math.floor(calc.seconds/60)} minutes(s).")
+            await ctx.channel.send(f"Your beg cooldown in ongoing, please wait {math.floor(calc.seconds)} second(s).")
 
 
 def setup(bot):
