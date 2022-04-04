@@ -131,7 +131,7 @@ async def isOwner(ctx, name):
     n = result.text.strip('\"')
     result = requests.get(getAuction, params={"f1": "owner", "f2": name}, headers={"User-Agent": "XY"})
     o = result.text.strip('\"')
-    if (name == n and ctx.author.id == o):
+    if (name == n and ctx.author.id == int(o)):
         return True
     else:
         await ctx.channel.send("You do not own this Celebrity.")
