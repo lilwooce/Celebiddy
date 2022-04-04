@@ -22,7 +22,7 @@ class User(commands.Cog):
     async def balance(self, ctx):
         checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
         checkBalance = checkBalance.text.strip('\"')
-        await ctx.channel.send(f"You currently have {checkBalance} dabloon(s).")
+        await ctx.channel.send(f"{ctx.author.mention} you currently have {checkBalance} dabloon(s).")
 
 async def hasAccount(ctx):
     userID = ctx.author.id
