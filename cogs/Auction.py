@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 import requests
 import os
+import random
 import asyncio
 from .User import hasAccount
 
@@ -54,6 +55,7 @@ class Auction(commands.Cog):
             embed.add_field(name="Description", value=d, inline=True)
             embed.add_field(name="Occupation", value=o, inline=True)
             embed.add_field(name="Attribute", value=a, inline=True)
+            embed.color = random_color()
             embed.set_image(url=i)
             await ctx.channel.send(embed=embed)
             
@@ -89,8 +91,8 @@ class Auction(commands.Cog):
             await ctx.send(f"You bid {amount} dabloon(s) on {name}")
 
     async def stopAuction(self, ctx, time, name):
-        updateChannel = discord.get_channel(960595719704678451)
-        updateChannel.send(f"{name}'s auction is startting now, it ends in {time} hour(s). Good Luck!")
+        '''updateChannel = discord.get_channel(960595719704678451)
+        updateChannel.send(f"{name}'s auction is startting now, it ends in {time} hour(s). Good Luck!")'''
         await asyncio.sleep(time*3600)
         winner = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
         winner = winner.text.strip("\"")
@@ -104,6 +106,10 @@ class Auction(commands.Cog):
         user = await self.bot.fetch_user(winner)
         await user.send(f"Congrats! You won the auction for {name} with {amount} dabloon(s)")
 
+def random_color():
+    rgbl=[255,0,0]
+    random.shuffle(rgbl)
+    return tuple(rgbl)
 
 async def exists(ctx, name, series):
     result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
