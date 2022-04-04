@@ -56,9 +56,9 @@ class User(commands.Cog):
 
 def calcTime(time):
     if(time<3600 and time>60):
-        return f"in {time/60} minute(s)"
+        return f"in {math.floor(time/60)} minute(s)"
     elif (time >= 3600):
-        return f"in {time/3600} hour(s)"
+        return f"in {math.floor(time/3600)} hour(s)"
     elif (time <=0):
         return "is available"
     else:
