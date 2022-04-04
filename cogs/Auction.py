@@ -131,6 +131,10 @@ async def isOwner(ctx, name):
     n = result.text.strip('\"')
     result = requests.get(getCeleb, params={"f1": "owner", "f2": name}, headers={"User-Agent": "XY"})
     o = result.text.strip('\"')
+    print(ctx.author.id)
+    print(int(o))
+    print(name)
+    print(n)
     if (name == n and ctx.author.id == int(o)):
         return True
     else:
