@@ -88,7 +88,7 @@ class Auction(commands.Cog):
 
     async def stopAuction(self, ctx, time, name, embed):
         updateChannel = discord.get_channel(960595719704678451)
-        updateChannel.send(f"{name}'s auction is startting now, it ends in {time} hour(s). Good Luck!", embed=embed)
+        updateChannel.send(f"{name}'s auction is starting now, it ends in {time} hour(s). Good Luck!", embed=embed)
         await asyncio.sleep(time*3600)
         winner = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
         winner = winner.text.strip("\"")

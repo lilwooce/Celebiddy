@@ -45,11 +45,9 @@ class User(commands.Cog):
         workCD = workCD - rn
         begCD = begCD - rn
 
-        dailyCD = calcTime(dailyCD.seconds)
-        workCD = calcTime(workCD.seconds)
-        print(begCD)
+        dailyCD = calcTime(dailyCD)
+        workCD = calcTime(workCD)
         begCD = calcTime(begCD.seconds)
-        print(begCD)
         
         embed=discord.Embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
         await ctx.channel.send(embed=embed)
