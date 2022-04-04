@@ -82,7 +82,7 @@ class Auction(commands.Cog):
         amount = amount.content
 
         if (await isAuction(ctx, name)):
-            hb = requests.get(getAuction, data={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
+            hb = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
             hb = hb.text.strip('\"')
             if (amount > int(hb)):
                 requests.post(updateAuction, data={"f1": "highestBid", "f2": amount, "f3": name}, headers={"User-Agent": "XY"})
