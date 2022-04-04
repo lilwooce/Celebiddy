@@ -93,9 +93,12 @@ class Auction(commands.Cog):
         winner = winner.text.strip("\"")
         amount = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
         amount = amount.text.strip("\"")
+        balance = requests.get(getUser, params={"f1": "dabloons", "f2": winner}, headers={"User-Agent": "XY"})
+        balance = balance.text.strip("\"")
         requests.post(removeAuction, data={"f1": name}, headers={"User-Agent": "XY"})
+        requests.post(updateUser, data={"f1": "dabloons", "f2": int(balance)-int(amount), "f3": winner}, headers={"User-Agent": "XY"})
         requests.post(updateCeleb, data={"f1": "owner", "f2": winner, "f3": name}, headers={"User-Agent": "XY"})
-        user = self.bot.get_user(winner)
+        user = self.bot.fetch_user(winner)
         await user.send(f"Congrats! You won the auction for {name} with {amount} dabloons")
 
 
