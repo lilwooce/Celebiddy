@@ -82,9 +82,14 @@ class Auction(commands.Cog):
         amount = amount.content
 
         if (await isAuction(ctx, name)):
-            requests.post(updateAuction, data={"f1": "highestBid", "f2": amount, "f3": name}, headers={"User-Agent": "XY"})
-            requests.post(updateAuction, data={"f1": "highestUser", "f2": userID, "f3": name}, headers={"User-Agent": "XY"})
-            await ctx.send(f"You bid {amount} dabloon(s) on {name}")
+            hb = requests.get(getAuction, data={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
+            hb = hb.text.strip('\"')
+            if (amount > int(hb)):
+                requests.post(updateAuction, data={"f1": "highestBid", "f2": amount, "f3": name}, headers={"User-Agent": "XY"})
+                requests.post(updateAuction, data={"f1": "highestUser", "f2": userID, "f3": name}, headers={"User-Agent": "XY"})
+                await ctx.send(f"You bid {amount} dabloon(s) on {name}")
+            else:
+                await ctx.send(f"The current highest bid is {hb}. Bid higher loser.")
 
     async def stopAuction(self, ctx, time, name, embed):
         updateChannel = self.bot.get_channel(960595719704678451)
