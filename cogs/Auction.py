@@ -55,7 +55,7 @@ class Auction(commands.Cog):
 
         endTime = rn + timedelta(hours=endTime)
         requests.post(addAuction, data={"f1": userID, "f2": 0, "f3": userID, "f4": endTime}, headers={"User-Agent": "XY"})
-        asyncio.run(self.stopAuction(ctx, endTime, name))
+        asyncio.run(await self.stopAuction(ctx, endTime, name))
 
     @commands.command(aliases=["as"])
     async def auctions(self, ctx):
