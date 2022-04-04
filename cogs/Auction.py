@@ -63,7 +63,8 @@ class Auction(commands.Cog):
     async def auctions(self, ctx):
             embed = discord.Embed(title="Auctions", description="")
             current = requests.get(getAuction, params={"f1": "*"}, headers={"User-Agent": "XY"})    
-            print(current.text)
+            for auction in current.text:
+                print(auction)
     
     @commands.command()
     async def bid(self, ctx):
