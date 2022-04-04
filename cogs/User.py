@@ -19,7 +19,7 @@ class User(commands.Cog):
     async def on_ready(self):
         print(f"{self.__class__.__name__} Cog has been loaded\n----")
     
-    @commands.command(aliases=['b'])
+    @commands.command(aliases=['bal'])
     async def balance(self, ctx):
         checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
         checkBalance = checkBalance.text.strip('\"')
