@@ -43,7 +43,7 @@ class Economy(commands.Cog):
             s = streak.text.strip('\"')
             r = int(r) + self.baseDaily + (100 * int(s))
             requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
-            await ctx.channel.send(f"You recieved {self.baseDaily + (100* int(s))} dabloons, you now have {r} dabloons.")
+            await ctx.channel.send(f"{ctx.author.mention} you recieved {self.baseDaily + (100* int(s))} dabloons, you now have {r} dabloons.")
             next = datetime.now() + timedelta(hours=24)
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dailyStreak", "f2": int(s) + 1, "f3": userID}, headers={"User-Agent": "XY"})
@@ -65,7 +65,7 @@ class Economy(commands.Cog):
             b = balance.text.strip('\"')
             b = int(b) + self.baseWork
             requests.post(updateUser, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
-            await ctx.channel.send(f"You recieved {self.baseWork} dabloons, you now have {b} dabloons.")
+            await ctx.channel.send(f"{ctx.author.mention} you recieved {self.baseWork} dabloons, you now have {b} dabloons.")
             next = datetime.now() + timedelta(hours=6)
             requests.post(updateUser, data={"f1": "workTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
@@ -87,7 +87,7 @@ class Economy(commands.Cog):
             add = self.baseBeg + random.randint(1, 10)
             b = int(b) + add
             requests.post(updateUser, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
-            await ctx.channel.send(f"You recieved {add} dabloons, you now have {b} dabloons.")
+            await ctx.channel.send(f"{ctx.author.mention} you recieved {add} dabloons, you now have {b} dabloons.")
             next = datetime.now() + timedelta(minutes=1)
             requests.post(updateUser, data={"f1": "begTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
