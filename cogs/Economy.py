@@ -20,7 +20,7 @@ class Economy(commands.Cog):
         self.bot = bot
         self.baseDaily = 500
         self.baseWork = 1000
-        self.baseBeg = 50
+        self.baseBeg = 5
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -84,7 +84,7 @@ class Economy(commands.Cog):
         if (rn >= result):
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             b = balance.text.strip('\"')
-            add = self.baseBeg + random.randint(10, 20)
+            add = self.baseBeg + random.randint(1, 10)
             b = int(b) + add
             requests.post(updateUser, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"You recieved {add} dabloons, you now have {b} dabloons.")
