@@ -1,9 +1,11 @@
 from discord.ext import commands
 import discord
+from discord.ext import tasks
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 import requests
 import os
+import asyncio
 from .User import hasAccount
 
 load_dotenv()
@@ -12,6 +14,10 @@ updateUser = os.getenv('UPDATE_USER')
 getCeleb = os.getenv('GET_CELEB')
 addCeleb = os.getenv('ADD_CELEB')
 updateCeleb = os.getenv('UPDATE_CELEB')
+addAuction = os.getenv('ADD_AUCTION')
+updateAuction = os.getenv('UPDATE_AUCTION')
+getAuction = os.getenv('GET_AUCTION')
+removeAuction = os.getenv('REMOVE_AUCTION')
 
 class Auction(commands.Cog):
     def __init__(self, bot):
@@ -24,8 +30,9 @@ class Auction(commands.Cog):
     @commands.is_owner()
     @commands.command()
     @commands.guild_only()
-    async def auction(self, ctx):
+    async def auction(self, ctx, endTime=1):
         channel = ctx.channel
+        rn = datetime.now()
         userID = ctx.author.id
         
         def check(m):
@@ -39,7 +46,6 @@ class Auction(commands.Cog):
         series = series.content
 
         d,o,a,i = await getInfo(ctx, name, series)
-
         embed=discord.Embed(title=name, description="")
         embed.add_field(name="Description", value=d, inline=True)
         embed.add_field(name="Occupation", value=o, inline=True)
@@ -47,9 +53,47 @@ class Auction(commands.Cog):
         embed.set_image(url=i)
         await ctx.channel.send(embed=embed)
 
-        @commands.command(aliases=["as"])
-        async def auctions(self, ctx):
-            return
+        endTime = rn + timedelta(hours=endTime)
+        requests.post(addAuction, data={"f1": userID, "f2": 0, "f3": userID, "f4": endTime}, headers={"User-Agent": "XY"})
+        asyncio.run(self.stopAuction(ctx, endTime, name))
+
+    @commands.command(aliases=["as"])
+    async def auctions(self, ctx):
+            embed = discord.Embed(title="Auctions", description="")
+            current = requests.get(getAuction, params={"f1": "*"}, headers={"User-Agent": "XY"})    
+            print(current)
+    
+    @commands.command()
+    async def bid(self, ctx):
+        channel = ctx.channel
+        rn = datetime.now()
+        userID = ctx.author.id
+        
+        def check(m):
+            return m.author.id == userID and m.channel == channel
+
+        await ctx.channel.send("Celebrity Name: ")
+        name = await self.bot.wait_for('message', check=check, timeout=30)
+        name = name.content
+        await ctx.channel.send("Amount: ")
+        amount = await self.bot.wait_for('message', check=check, timeout=30)
+        amount = amount.content
+
+        if (await isAuction(ctx, name)):
+            requests.post(updateAuction, data={"f1": "highestBid", "f2": amount, "f3": name}, headers={"User-Agent": "XY"})
+            requests.post(updateAuction, data={"f1": "highestUser", "f2": userID, "f3": name}, headers={"User-Agent": "XY"})
+            await ctx.send(f"You bid {amount} dabloon(s) on {name}")
+
+    async def stopAuction(self, ctx, time, name):
+        asyncio.sleep(time*3600)
+        winner = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
+        winner = winner.text.strip("\"")
+        amount = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
+        amount = amount.text.strip("\"")
+        requests.post(removeAuction, data={"f1": name}, headers={"User-Agent": "XY"})
+        requests.post(updateCeleb, data={"f1": "owner", "f2": winner, "f3": name}, headers={"User-Agent": "XY"})
+        user = self.bot.get_user(winner)
+        await self.bot.send_message(user, f"Congrats! You won the auction for {name} with {amount} dabloons")
 
 
 async def exists(ctx, name, series):
@@ -61,6 +105,17 @@ async def exists(ctx, name, series):
         return True
     else:
         await ctx.channel.send("This celebrity does not exist in database please add.")
+        return False
+
+async def isAuction(ctx, name):
+    result = requests.get(getAuction, params={"f1": "celebrity", "f2": name}, headers={"User-Agent": "XY"})
+    auctioneer = requests.get(getAuction, params={"f1": "auctioneer", "f2": name}, headers={"User-Agent": "XY"})
+    n = result.text.strip('\"')
+    auctioneer = auctioneer.text.strip('\"')
+    if (name == n and auctioneer == ctx.author.id):
+        return True
+    else:
+        await ctx.channel.send("This celebrity is not currently in auction.")
         return False
 
 async def getInfo(ctx, n, s):
