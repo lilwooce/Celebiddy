@@ -30,7 +30,7 @@ class Auction(commands.Cog):
     @commands.is_owner()
     @commands.command()
     @commands.guild_only()
-    async def auction(self, ctx, endTime=1):
+    async def auction(self, ctx):
         channel = ctx.channel
         rn = datetime.now()
         userID = ctx.author.id
@@ -44,6 +44,9 @@ class Auction(commands.Cog):
         await ctx.channel.send("Series: ")
         series = await self.bot.wait_for('message', check=check, timeout=30)
         series = series.content
+        await ctx.channel.send("Auction Length: ")
+        endTime = await self.bot.wait_for('message', check=check, timeout=30)
+        endTime = endTime.content
 
         d,o,a,i = await getInfo(ctx, name, series)
         embed=discord.Embed(title=name, description="")
@@ -53,9 +56,8 @@ class Auction(commands.Cog):
         embed.set_image(url=i)
         await ctx.channel.send(embed=embed)
 
-        endTime = rn + timedelta(hours=endTime)
         requests.post(addAuction, data={"f1": userID, "f2": 0, "f3": userID, "f4": endTime}, headers={"User-Agent": "XY"})
-        asyncio.run(await self.stopAuction(ctx, endTime, name))
+        asyncio.run(await self.stopAuction(ctx, int(endTime), name))
 
     @commands.command(aliases=["as"])
     async def auctions(self, ctx):
