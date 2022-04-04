@@ -99,7 +99,7 @@ class Auction(commands.Cog):
         requests.post(updateUser, data={"f1": "dabloons", "f2": int(balance)-int(amount), "f3": winner}, headers={"User-Agent": "XY"})
         requests.post(updateCeleb, data={"f1": "owner", "f2": winner, "f3": name}, headers={"User-Agent": "XY"})
         user = await self.bot.fetch_user(winner)
-        await user.send(f"Congrats! You won the auction for {name} with {amount} dabloons")
+        await user.send(f"Congrats! You won the auction for {name} with {amount} dabloon(s)")
 
 
 async def exists(ctx, name, series):
