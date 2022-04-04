@@ -52,9 +52,7 @@ class Auction(commands.Cog):
         if(await isOwner(ctx, name)):
             d,o,a,i = await getInfo(ctx, name, series)
             embed=discord.Embed(title=name, description="", color=discord.Colour.random())
-            embed.add_field(name="Description", value=d, inline=True)
             embed.add_field(name="Occupation", value=o, inline=True)
-            embed.add_field(name="Attribute", value=a, inline=True)
             embed.set_image(url=i)
             await ctx.channel.send(embed=embed)
             
