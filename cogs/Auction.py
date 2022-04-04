@@ -56,7 +56,7 @@ class Auction(commands.Cog):
         embed.set_image(url=i)
         await ctx.channel.send(embed=embed)
 
-        requests.post(addAuction, data={"f1": userID, "f2": 0, "f3": userID, "f4": endTime}, headers={"User-Agent": "XY"})
+        requests.post(addAuction, data={"f1": userID, "f2": name, "f3": 0, "f4": userID}, headers={"User-Agent": "XY"})
         asyncio.run(await self.stopAuction(ctx, int(endTime), name))
 
     @commands.command(aliases=["as"])
@@ -112,8 +112,6 @@ async def exists(ctx, name, series):
 async def isAuction(ctx, name):
     result = requests.get(getAuction, params={"f1": "celebrity", "f2": name}, headers={"User-Agent": "XY"})
     n = result.text.strip('\"')
-    print(name)
-    print(n)
     if (name == n):
         return True
     else:
