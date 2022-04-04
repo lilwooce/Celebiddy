@@ -47,6 +47,11 @@ class Auction(commands.Cog):
         embed.set_image(url=i)
         await ctx.channel.send(embed=embed)
 
+        @commands.command(aliases=["as"])
+        async def auctions(self, ctx):
+            return
+
+
 async def exists(ctx, name, series):
     result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
     r = requests.get(getCeleb, params={"f1": "series", "f2": name}, headers={"User-Agent": "XY"})

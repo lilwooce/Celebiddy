@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import requests
 import math
+import random
 import os
 from .User import hasAccount
 
@@ -69,7 +70,29 @@ class Economy(commands.Cog):
         else:
             calc = result - rn
             await ctx.channel.send(f"Your work cooldown in ongoing, please wait {math.floor(calc.seconds/3600)} hour(s).")
-        return
+    
+    @commands.command(aliases=['b'])
+    @commands.check(hasAccount)
+    async def beg(self, ctx):
+        userID = ctx.author.id
+        rn = datetime.now()
+        checktime = requests.get(getUser, params={"f1": "begTimer", "f2": userID}, headers={"User-Agent": "XY"})
+        result = checktime.text.strip('\"')
+        result = result[:-7]
+        result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
+        if (rn >= result):
+            balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
+            b = balance.text.strip('\"')
+            add = self.baseBeg + random.randint(10, 20)
+            b = int(b) + add
+            requests.post(updateUser, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
+            await ctx.channel.send(f"You recieved {add} dabloons, you now have {b} dabloons.")
+            next = datetime.now() + timedelta(minutes=5)
+            requests.post(updateUser, data={"f1": "begTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
+        else:
+            calc = result - rn
+            await ctx.channel.send(f"Your beg cooldown in ongoing, please wait {math.floor(calc.seconds/60)} minutes(s).")
+
 
 def setup(bot):
     bot.add_cog(Economy(bot))
