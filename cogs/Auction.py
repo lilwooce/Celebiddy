@@ -84,7 +84,7 @@ class Auction(commands.Cog):
         if (await isAuction(ctx, name)):
             hb = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
             hb = hb.text.strip('\"')
-            if (amount > int(hb)):
+            if (int(amount) > int(hb)):
                 requests.post(updateAuction, data={"f1": "highestBid", "f2": amount, "f3": name}, headers={"User-Agent": "XY"})
                 requests.post(updateAuction, data={"f1": "highestUser", "f2": userID, "f3": name}, headers={"User-Agent": "XY"})
                 await ctx.send(f"You bid {amount} dabloon(s) on {name}")
