@@ -49,7 +49,7 @@ class Auction(commands.Cog):
         endTime = await self.bot.wait_for('message', check=check, timeout=30)
         endTime = endTime.content
 
-        if(isOwner(ctx, name)):
+        if(await isOwner(ctx, name)):
             d,o,a,i = await getInfo(ctx, name, series)
             embed=discord.Embed(title=name, description="", color=discord.Colour.random())
             embed.add_field(name="Description", value=d, inline=True)
