@@ -111,10 +111,8 @@ async def exists(ctx, name, series):
 
 async def isAuction(ctx, name):
     result = requests.get(getAuction, params={"f1": "celebrity", "f2": name}, headers={"User-Agent": "XY"})
-    auctioneer = requests.get(getAuction, params={"f1": "auctioneer", "f2": name}, headers={"User-Agent": "XY"})
     n = result.text.strip('\"')
-    auctioneer = auctioneer.text.strip('\"')
-    if (name == n and auctioneer == ctx.author.id):
+    if (name == n):
         return True
     else:
         await ctx.channel.send("This celebrity is not currently in auction.")
