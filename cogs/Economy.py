@@ -20,6 +20,7 @@ class Economy(commands.Cog):
         self.bot = bot
         self.baseDaily = 500
         self.baseWork = 1000
+        self.baseBeg = 50
 
     @commands.Cog.listener()
     async def on_ready(self):
