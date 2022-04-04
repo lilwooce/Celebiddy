@@ -57,7 +57,7 @@ class Auction(commands.Cog):
         await ctx.channel.send(embed=embed)
 
         requests.post(addAuction, data={"f1": userID, "f2": name, "f3": 0, "f4": userID}, headers={"User-Agent": "XY"})
-        asyncio.run(await self.stopAuction(ctx, int(endTime), name))
+        await self.stopAuction(ctx, int(endTime), name)
 
     @commands.command(aliases=["as"])
     async def auctions(self, ctx):
