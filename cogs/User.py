@@ -48,13 +48,6 @@ class User(commands.Cog):
         dailyCD = calcTime(dailyCD.seconds)
         workCD = calcTime(workCD.seconds)
         begCD = calcTime(begCD.seconds)
-
-        if(dailyCD <= rn):
-            dailyCD = "is available"
-        elif(workCD <= rn):
-            workCD = "is available"
-        elif(begCD <= rn):
-            begCD = "is available"
         
         embed=discord.embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
         await ctx.channel.send(embed=embed)
@@ -64,6 +57,8 @@ def calcTime(time):
         return f"in {time/60} minute(s)"
     elif (time >= 3600):
         return f"in {time/3600} hour(s)"
+    elif (time <=0):
+        return "is available"
     else:
         return  f"in {time} second(s)"
 
