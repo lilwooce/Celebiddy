@@ -55,9 +55,8 @@ class Auction(commands.Cog):
             embed.add_field(name="Occupation", value=o, inline=True)
             embed.set_image(url=i)
             await ctx.channel.send(embed=embed)
-            
             requests.post(addAuction, data={"f1": userID, "f2": name, "f3": 0, "f4": userID}, headers={"User-Agent": "XY"})
-            await self.stopAuction(ctx, int(endTime), name)
+            await self.stopAuction(ctx, int(endTime), name, embed)
 
     @commands.command(aliases=["as"])
     async def auctions(self, ctx):
@@ -87,7 +86,9 @@ class Auction(commands.Cog):
             requests.post(updateAuction, data={"f1": "highestUser", "f2": userID, "f3": name}, headers={"User-Agent": "XY"})
             await ctx.send(f"You bid {amount} dabloon(s) on {name}")
 
-    async def stopAuction(self, ctx, time, name):
+    async def stopAuction(self, ctx, time, name, embed):
+        updateChannel = discord.get_channel(960595719704678451)
+        updateChannel.send(f"{name}'s auction is startting now, it ends in {time} hour(s). Good Luck!", embed=embed)
         await asyncio.sleep(time*3600)
         winner = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
         winner = winner.text.strip("\"")
