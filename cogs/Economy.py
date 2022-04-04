@@ -72,7 +72,7 @@ class Economy(commands.Cog):
             calc = result - rn
             await ctx.channel.send(f"Your work cooldown in ongoing, please wait {math.floor(calc.seconds/3600)} hour(s).")
     
-    @commands.command(aliases=['b'])
+    @commands.command()
     @commands.check(hasAccount)
     async def beg(self, ctx):
         userID = ctx.author.id
