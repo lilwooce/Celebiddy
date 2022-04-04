@@ -49,11 +49,11 @@ class User(commands.Cog):
         workCD = calcTime(workCD.seconds)
         begCD = calcTime(begCD.seconds)
 
-        if(dailyCD < 0):
+        if(dailyCD <= rn):
             dailyCD = "is available"
-        elif(workCD < 0):
+        elif(workCD <= rn):
             workCD = "is available"
-        elif(begCD < 0):
+        elif(begCD <= rn):
             begCD = "is available"
         
         embed=discord.embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
