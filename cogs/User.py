@@ -45,10 +45,13 @@ class User(commands.Cog):
         workCD = workCD - rn
         begCD = begCD - rn
 
-        dailyCD = calcTime(dailyCD)
-        workCD = calcTime(workCD)
-        begCD = calcTime(begCD.seconds)
-        
+        dailyCD = calcTime(dailyCD.seconds)
+        workCD = calcTime(workCD.seconds)
+        if(begCD.seconds >= 61):
+            begCD = "is available"
+        else:
+            begCD = calcTime(begCD.seconds)
+
         embed=discord.Embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
         await ctx.channel.send(embed=embed)
 
