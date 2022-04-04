@@ -62,8 +62,9 @@ class Auction(commands.Cog):
     async def auctions(self, ctx):
             embed = discord.Embed(title="Auctions", description="")
             current = requests.get(getAuction, params={"f1": "*"}, headers={"User-Agent": "XY"})    
+            print(current.text["celebrity"])
             for auction in current.text:
-                print(auction)
+                print(auction["celebrity"])
     
     @commands.command()
     async def bid(self, ctx):
@@ -101,11 +102,6 @@ class Auction(commands.Cog):
         requests.post(updateCeleb, data={"f1": "owner", "f2": winner, "f3": name}, headers={"User-Agent": "XY"})
         user = await self.bot.fetch_user(winner)
         await user.send(f"Congrats! You won the auction for {name} with {amount} dabloon(s)")
-
-def random_color():
-    rgbl=[255,0,0]
-    random.shuffle(rgbl)
-    return discord.Color.from_rgb(rgbl)
 
 async def exists(ctx, name, series):
     result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
