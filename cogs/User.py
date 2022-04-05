@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import requests
 import os 
+from .Auction import getInfo
 
 load_dotenv()
 getUser = os.getenv('USER_URL')
@@ -53,6 +54,14 @@ class User(commands.Cog):
             begCD = calcTime(begCD.seconds)
 
         embed=discord.Embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
+        await ctx.channel.send(embed=embed)
+    
+    @commands.command(aliases=['v'])
+    async def view(self, ctx, series=1, *name):
+        d,o,a,i,owner = await getInfo(ctx, name, series)
+        embed=discord.Embed(title=name, description=f"Works as a(n) {o} \n Owned by <@{owner}>", color=discord.Colour.random())
+        embed.add_field(name="Occupation", value=o, inline=True)
+        embed.set_image(url=i)
         await ctx.channel.send(embed=embed)
 
 def calcTime(time):

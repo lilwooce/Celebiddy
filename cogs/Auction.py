@@ -50,7 +50,7 @@ class Auction(commands.Cog):
         endTime = endTime.content
 
         if(await isOwner(ctx, name)):
-            d,o,a,i = await getInfo(ctx, name, series)
+            d,o,a,i,owner = await getInfo(ctx, name, series)
             embed=discord.Embed(title=name, description="", color=discord.Colour.random())
             embed.add_field(name="Occupation", value=o, inline=True)
             embed.set_image(url=i)
@@ -148,11 +148,12 @@ async def getInfo(ctx, n, s):
         occupation = occupation.text.strip('\"')
         attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": n}, headers={"User-Agent": "XY"})
         attribute = attribute.text.strip('\"')
+        owner = requests.get(getCeleb, params={"f1": "owner", "f2": n}, headers={"User-Agent": "XY"})
+        owner = owner.text.strip('\"')
         image = requests.get(getCeleb, params={"f1": "image", "f2": n}, headers={"User-Agent": "XY"})
         image = image.text.replace("\\", "")
         image = image.strip("\"")
-        print(image)
-        return description,occupation,attribute,image
+        return description,occupation,attribute,image,owner
 
 def setup(bot):
     bot.add_cog(Auction(bot))
