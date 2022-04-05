@@ -28,8 +28,11 @@ class User(commands.Cog):
         print(f"{self.__class__.__name__} Cog has been loaded\n----")
     
     @commands.command(aliases=['bal'])
-    async def balance(self, ctx):
-        checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+    async def balance(self, ctx, user: discord.User=None):
+        if user is None:
+            user = ctx.message.author
+
+        checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": user}, headers={"User-Agent": "XY"})
         checkBalance = checkBalance.text.strip('\"')
         await ctx.channel.send(f"{ctx.author.mention} you currently have {checkBalance} dabloon(s).")
         

@@ -118,7 +118,7 @@ class Economy(commands.Cog):
                 requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
                 await ctx.send(f"Congrats!!! You won {int(won)} dabloons")
             else:
-                requests.post(updateUser, data={"f1": "dabloons", "f2": bal-amount, "f3": userID}, headers={"User-Agent": "XY"})
+                requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)-amount, "f3": userID}, headers={"User-Agent": "XY"})
                 await ctx.send(f"You lost. lol. -{amount} dabloons")
         else:
             await ctx.send("Bid more money you poor fuck. The minimum bid is 5 dabloons.")
