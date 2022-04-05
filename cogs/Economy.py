@@ -105,12 +105,12 @@ class Economy(commands.Cog):
             heads = ["heads", "head", "h"]
             tails = ["tails", "tail", "t"]
             result = random.randint(0,1)
-            if (result == 0 and bet.content.lower() in heads):
+            if (result == 0 and bet.lower() in heads):
                 total = amount * 1.2
                 afterBet = total + cBal
                 requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
                 await ctx.send(f"Congrats!!! You won {total} dabloons")
-            elif (result == 1 and bet.content.lower() in tails):
+            elif (result == 1 and bet.lower() in tails):
                 total = amount * 1.2
                 afterBet = total + cBal
                 requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
