@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import requests
 import os 
-from .Auction import getInfo
 
 load_dotenv()
 getUser = os.getenv('USER_URL')
