@@ -110,6 +110,8 @@ async def exists(ctx, name, series):
 
 async def getInfo(ctx, n, s):
     if (await exists(ctx, n, s)):
+        print(n)
+        print(s)
         description = requests.get(getCeleb, params={"f1": "description", "f2": n}, headers={"User-Agent": "XY"})
         print(f"status code is {description.status_code}")
         description = description.text.strip('\"')
