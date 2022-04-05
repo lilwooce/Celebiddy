@@ -95,8 +95,8 @@ class Economy(commands.Cog):
             calc = result - rn
             await ctx.channel.send(f"Your beg cooldown in ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds)} second(s).")
         
-    @commands.command()
-    async def bet(self, ctx, bet, amount: int):
+    @commands.command(aliases=['cf'])
+    async def coinflip(self, ctx, bet, amount: int):
         userID = ctx.author.id
         if (amount >= self.minCoinBid):
             bal = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
