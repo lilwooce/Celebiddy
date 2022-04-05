@@ -10,6 +10,14 @@ from .Auction import getInfo
 
 load_dotenv()
 getUser = os.getenv('USER_URL')
+updateUser = os.getenv('UPDATE_USER')
+getCeleb = os.getenv('GET_CELEB')
+addCeleb = os.getenv('ADD_CELEB')
+updateCeleb = os.getenv('UPDATE_CELEB')
+addAuction = os.getenv('ADD_AUCTION')
+updateAuction = os.getenv('UPDATE_AUCTION')
+getAuction = os.getenv('GET_AUCTION')
+removeAuction = os.getenv('REMOVE_AUCTION')
 addUser = os.getenv('ADD_USER')
 
 class User(commands.Cog):
@@ -89,6 +97,33 @@ async def addAccount(ctx):
     userID = ctx.author.id
     obj = {"f1": userID}
     requests.post(addUser, data=obj, headers={"User-Agent": "XY"})
+
+async def exists(ctx, name, series):
+    result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
+    r = requests.get(getCeleb, params={"f1": "series", "f2": name}, headers={"User-Agent": "XY"})
+    n = result.text.strip('\"')
+    s = r.text.strip('\"')
+    if (name == n and series == s):
+        return True
+    else:
+        await ctx.channel.send("This celebrity does not exist in database please add.")
+        return False
+
+async def getInfo(ctx, n, s):
+    if (await exists(ctx, n, s)):
+        description = requests.get(getCeleb, params={"f1": "description", "f2": n}, headers={"User-Agent": "XY"})
+        print(f"status code is {description.status_code}")
+        description = description.text.strip('\"')
+        occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": n}, headers={"User-Agent": "XY"})
+        occupation = occupation.text.strip('\"')
+        attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": n}, headers={"User-Agent": "XY"})
+        attribute = attribute.text.strip('\"')
+        owner = requests.get(getCeleb, params={"f1": "owner", "f2": n}, headers={"User-Agent": "XY"})
+        owner = owner.text.strip('\"')
+        image = requests.get(getCeleb, params={"f1": "image", "f2": n}, headers={"User-Agent": "XY"})
+        image = image.text.replace("\\", "")
+        image = image.strip("\"")
+        return description,occupation,attribute,image,owner
 
 def setup(bot):
     bot.add_cog(User(bot))
