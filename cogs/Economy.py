@@ -21,6 +21,7 @@ class Economy(commands.Cog):
         self.baseDaily = 500
         self.baseWork = 1000
         self.baseBeg = 5
+        self.minCoinBid = 5
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -93,6 +94,33 @@ class Economy(commands.Cog):
         else:
             calc = result - rn
             await ctx.channel.send(f"Your beg cooldown in ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds)} second(s).")
+        
+    @commands.command()
+    async def bet(self, ctx, bet, amount: int):
+        userID = ctx.author.id
+        if (amount >= self.minCoinBid):
+            bal = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
+            bal = bal.text.strip('\"')
+            cBal = int(bal) - amount
+            heads = ["heads", "head", "h"]
+            tails = ["tails", "tail", "t"]
+            result = random.randint(0,1)
+            if (result == 0 and bet.content.lower() in heads):
+                total = amount * 1.2
+                afterBet = total + cBal
+                requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
+                await ctx.send(f"Congrats!!! You won {total} dabloons")
+            elif (result == 1 and bet.content.lower() in tails):
+                total = amount * 1.2
+                afterBet = total + cBal
+                requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
+                await ctx.send(f"Congrats!!! You won {total} dabloons")
+            else:
+                await ctx.send(f"You lost. lol. -{amount} dabloons")
+        else:
+            await ctx.send("Bid more money you poor fuck. The minimum bid is 5 dabloons.")
+
+
     
     async def trade(self, ctx):
         return

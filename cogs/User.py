@@ -116,7 +116,6 @@ async def getInfo(ctx, n, s):
         print(n)
         print(s)
         description = requests.get(getCeleb, params={"f1": "description", "f2": n}, headers={"User-Agent": "XY"})
-        print(f"status code is {description.status_code}")
         description = description.text.strip('\"')
         occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": n}, headers={"User-Agent": "XY"})
         occupation = occupation.text.strip('\"')
