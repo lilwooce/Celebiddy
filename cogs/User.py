@@ -32,9 +32,10 @@ class User(commands.Cog):
         if user is None:
             user = ctx.message.author
 
-        checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": user}, headers={"User-Agent": "XY"})
+        checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": user.id}, headers={"User-Agent": "XY"})
         checkBalance = checkBalance.text.strip('\"')
-        await ctx.channel.send(f"{ctx.author.mention} you currently have {checkBalance} dabloon(s).")
+
+        await ctx.channel.send(f"{user.name}#{user.discriminator} currently has {checkBalance} dabloon(s).")
         
     @commands.command(aliases=['cd'])
     async def cooldowns(self, ctx):
