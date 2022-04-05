@@ -65,6 +65,7 @@ class User(commands.Cog):
     
     @commands.command(aliases=['v'])
     async def view(self, ctx, series=1, *name):
+        print(name)
         name = " ".join(name)
         d,o,a,i,owner = await getInfo(ctx, name, series)
         embed=discord.Embed(title=name, description=f"Works as a(n) {o} \n Owned by <@{owner}>", color=discord.Colour.random())
