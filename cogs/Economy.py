@@ -112,9 +112,9 @@ class Economy(commands.Cog):
                 await ctx.send(f"Congrats!!! You won {total} dabloons")
             elif (result == 1 and bet.lower() in tails):
                 total = amount * 1.2
-                afterBet = total + cBal
+                afterBet = int(total) + cBal
                 requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
-                await ctx.send(f"Congrats!!! You won {total} dabloons")
+                await ctx.send(f"Congrats!!! You won {int(total)} dabloons")
             else:
                 await ctx.send(f"You lost. lol. -{amount} dabloons")
         else:
