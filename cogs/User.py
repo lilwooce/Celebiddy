@@ -67,6 +67,7 @@ class User(commands.Cog):
     async def view(self, ctx, series=1, *name):
         print(name)
         name = " ".join(name)
+        print(name)
         d,o,a,i,owner = await getInfo(ctx, name, series)
         embed=discord.Embed(title=name, description=f"Works as a(n) {o} \n Owned by <@{owner}>", color=discord.Colour.random())
         embed.add_field(name="Occupation", value=o, inline=True)
