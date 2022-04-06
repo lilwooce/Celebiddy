@@ -18,7 +18,6 @@ intents.members = True
 def get_prefix(client, message):
     obj = {"f1": message.guild.id}
     result = requests.get(getPrefix, params=obj, headers={"User-Agent": "XY"})
-    print(result)
     prefix = result.text.strip('\"')
     print(prefix)
     return prefix
