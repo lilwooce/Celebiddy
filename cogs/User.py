@@ -73,6 +73,7 @@ class User(commands.Cog):
         await ctx.channel.send(embed=embed)
 
 def calcTime(time):
+    print(time.days)
     if (time.days <= 0):
         time = time.seconds
         if(time<3600 and time>60):
