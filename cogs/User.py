@@ -61,7 +61,7 @@ class User(commands.Cog):
         workCD = calcTime(workCD)
         begCD = calcTime(begCD)
 
-        embed=discord.Embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
+        embed=discord.Embed(title="Cooldowns", description=f"Showing cooldowns for <@{ctx.author.id}> \n \n **Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
         await ctx.channel.send(embed=embed)
     
     @commands.command(aliases=['v'])
