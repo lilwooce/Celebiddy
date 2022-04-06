@@ -57,36 +57,32 @@ class User(commands.Cog):
         workCD = workCD - rn
         begCD = begCD - rn
 
-        dailyCD = calcTime(dailyCD.seconds)
-        workCD = calcTime(workCD.seconds)
-        if(begCD.seconds >= 61):
-            begCD = "is available"
-        else:
-            begCD = calcTime(begCD.seconds)
+        dailyCD = calcTime(dailyCD)
+        workCD = calcTime(workCD)
+        begCD = calcTime(begCD)
 
         embed=discord.Embed(title="Cooldowns", description=f"**Daily** {dailyCD} \n **Work** {workCD} \n **Beg** {begCD}")
         await ctx.channel.send(embed=embed)
     
     @commands.command(aliases=['v'])
     async def view(self, ctx, series=1, *name):
-        print(name)
         name = " ".join(name)
-        print(name)
         d,o,a,i,owner = await getInfo(ctx, name, series)
-        embed=discord.Embed(title=name, description=f"Works as a(n) {o} \n Owned by <@{owner}>", color=discord.Colour.random())
-        embed.add_field(name="Occupation", value=o, inline=True)
+        embed=discord.Embed(title=name, description=f"Works as a(n) {o} \n \n Owned by <@{owner}>", color=discord.Colour.random())
         embed.set_image(url=i)
         await ctx.channel.send(embed=embed)
 
 def calcTime(time):
-    if(time<3600 and time>60):
-        return f"in {math.floor(time/60)} minute(s)"
-    elif (time >= 3600):
-        return f"in {math.floor(time/3600)} hour(s)"
-    elif (time <=0):
-        return "is available"
+    if (time.days <= 0):
+        time = time.seconds
+        if(time<3600 and time>60):
+            return f"in {math.floor(time/60)} minute(s)"
+        elif (time >= 3600):
+            return f"in {math.floor(time/3600)} hour(s)"
+        else:
+            return  f"in {time} second(s)"
     else:
-        return  f"in {time} second(s)"
+        return "is available"
 
 async def hasAccount(ctx):
     userID = ctx.author.id
