@@ -74,7 +74,7 @@ class User(commands.Cog):
 
 def calcTime(time):
     print(time.days)
-    if (time.days <= 0):
+    if (time.days > 0):
         time = time.seconds
         if(time<3600 and time>60):
             return f"in {math.floor(time/60)} minute(s)"
