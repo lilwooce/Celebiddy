@@ -109,10 +109,10 @@ async def exists(ctx, name, series):
     r = requests.get(getCeleb, params={"f1": "series", "f2": name}, headers={"User-Agent": "XY"})
     n = result.text.strip('\"')
     s = r.text.strip('\"')
-    print(name)
-    print(n)
-    print(series)
-    print(s)
+    print(type(name))
+    print(type(n))
+    print(type(series))
+    print(type(s))
     if (name == n and series == s):
         print("name and series match")
         return True
