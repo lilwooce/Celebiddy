@@ -109,12 +109,7 @@ async def exists(ctx, name, series):
     r = requests.get(getCeleb, params={"f1": "series", "f2": name}, headers={"User-Agent": "XY"})
     n = result.text.strip('\"')
     s = r.text.strip('\"')
-    print(type(name))
-    print(type(n))
-    print(type(series))
-    print(type(s))
-    if (name == n and series == s):
-        print("name and series match")
+    if (name == n and series == int(s)):
         return True
     else:
         await ctx.channel.send("This celebrity does not exist in database please add.")
