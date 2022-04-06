@@ -114,6 +114,7 @@ async def exists(ctx, name, series):
     print(series)
     print(s)
     if (name == n and series == s):
+        print("name and series match")
         return True
     else:
         await ctx.channel.send("This celebrity does not exist in database please add.")
@@ -121,8 +122,6 @@ async def exists(ctx, name, series):
 
 async def getInfo(ctx, n, s):
     if (await exists(ctx, n, s)):
-        print(n)
-        print(s)
         description = requests.get(getCeleb, params={"f1": "description", "f2": n}, headers={"User-Agent": "XY"})
         description = description.text.strip('\"')
         occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": n}, headers={"User-Agent": "XY"})
