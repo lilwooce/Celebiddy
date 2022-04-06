@@ -21,7 +21,7 @@ def get_prefix(client, message):
     prefix = result.text.strip('\"')
     return prefix
 
-bot = commands.Bot(command_prefix="b", intents=intents, description="Bid on and collect your favorite celebs.")
+bot = commands.Bot(command_prefix=[getPrefix.lower(), getPrefix.upper()], intents=intents, description="Bid on and collect your favorite celebs.")
 
 @bot.event
 async def on_ready():
