@@ -74,7 +74,9 @@ class User(commands.Cog):
 
 def calcTime(time):
     print(time.days)
-    if (time.days >= 0):
+    if (time.days < 0):
+        return "is available"
+    else:
         time = time.seconds
         if(time<3600 and time>60):
             return f"in {math.floor(time/60)} minute(s)"
@@ -82,8 +84,7 @@ def calcTime(time):
             return f"in {math.floor(time/3600)} hour(s)"
         else:
             return  f"in {time} second(s)"
-    else:
-        return "is available"
+        
 
 async def hasAccount(ctx):
     userID = ctx.author.id
