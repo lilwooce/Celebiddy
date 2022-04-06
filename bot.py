@@ -16,13 +16,13 @@ intents = discord.Intents.default()
 intents.members = True
 
 def get_prefix(client, message):
-    obj = {"f1": "server", "q1": message.guild.id}
+    obj = {"f1": message.guild.id}
     result = requests.get(getPrefix, params=obj, headers={"User-Agent": "XY"})
     prefix = result.text.strip('\"')
     print(prefix)
     return prefix
 
-bot = commands.Bot(command_prefix=[getPrefix.lower(), getPrefix.upper()], intents=intents, description="Bid on and collect your favorite celebs.")
+bot = commands.Bot(command_prefix=[getPrefix], intents=intents, description="Bid on and collect your favorite celebs.")
 
 @bot.event
 async def on_ready():
