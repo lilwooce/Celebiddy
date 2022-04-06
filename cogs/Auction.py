@@ -49,14 +49,14 @@ class Auction(commands.Cog):
         endTime = await self.bot.wait_for('message', check=check, timeout=30)
         endTime = endTime.content
 
-        if(await isOwner(ctx, name)):
-            d,o,a,i,owner = await getInfo(ctx, name, series)
-            embed=discord.Embed(title=name, description="", color=discord.Colour.random())
-            embed.add_field(name="Occupation", value=o, inline=True)
-            embed.set_image(url=i)
-            await ctx.channel.send(embed=embed)
-            requests.post(addAuction, data={"f1": userID, "f2": name, "f3": 0, "f4": userID}, headers={"User-Agent": "XY"})
-            await self.stopAuction(ctx, int(endTime), name, embed)
+        d,o,a,i,owner = await getInfo(ctx, name, series)
+        embed=discord.Embed(title=name, description="", color=discord.Colour.random())
+        embed.add_field(name="Occupation", value=o, inline=True)
+        embed.set_image(url=i)
+        await ctx.channel.send(embed=embed)
+        requests.post(addAuction, data={"f1": userID, "f2": name, "f3": 0, "f4": userID}, headers={"User-Agent": "XY"})
+        await self.stopAuction(ctx, int(endTime), name, embed)
+            
 
     '''@commands.command(aliases=["as"])
     async def auctions(self, ctx):
@@ -128,7 +128,7 @@ async def isAuction(ctx, name):
         await ctx.channel.send("This celebrity is not currently in auction.")
         return False
 
-async def isOwner(ctx, name):
+'''async def isOwner(ctx, name):
     result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
     n = result.text.strip('\"')
     result = requests.get(getCeleb, params={"f1": "owner", "f2": name}, headers={"User-Agent": "XY"})
@@ -137,7 +137,7 @@ async def isOwner(ctx, name):
         return True
     else:
         await ctx.channel.send("You do not own this Celebrity.")
-        return False
+        return False'''
 
 async def getInfo(ctx, n, s):
     if (await exists(ctx, n, s)):
