@@ -73,7 +73,6 @@ class User(commands.Cog):
         await ctx.channel.send(embed=embed)
 
 def calcTime(time):
-    print(time.days)
     if (time.days < 0):
         return "is available"
     else:
