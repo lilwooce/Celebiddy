@@ -50,7 +50,7 @@ class Economy(commands.Cog):
             requests.post(updateUser, data={"f1": "dailyStreak", "f2": int(s) + 1, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
-            await ctx.channel.send(f"Your daily cooldown in ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds/3600)} hour(s).")
+            await ctx.channel.send(f"Your daily cooldown is ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds/3600)} hour(s).")
     
     @commands.command(aliases=['w'])
     @commands.check(hasAccount)
@@ -71,7 +71,7 @@ class Economy(commands.Cog):
             requests.post(updateUser, data={"f1": "workTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
-            await ctx.channel.send(f"Your work cooldown in ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds/3600)} hour(s).")
+            await ctx.channel.send(f"Your work cooldown is ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds/3600)} hour(s).")
     
     @commands.command()
     @commands.check(hasAccount)
@@ -93,7 +93,7 @@ class Economy(commands.Cog):
             requests.post(updateUser, data={"f1": "begTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
-            await ctx.channel.send(f"Your beg cooldown in ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds)} second(s).")
+            await ctx.channel.send(f"Your beg cooldown is ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds)} second(s).")
         
     @commands.command(aliases=['cf'])
     async def coinflip(self, ctx, bet, amount: int):
