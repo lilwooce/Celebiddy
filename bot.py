@@ -23,7 +23,7 @@ def get_prefix(client, message):
     return [prefix.lower(), prefix.upper()]
 
 p = get_prefix
-bot = commands.Bot(command_prefix=get_prefix, intents=intents, description="Bid on and collect your favorite celebs.")
+bot = commands.Bot(command_prefix=get_prefix, case_insensitive=True, intents=intents, description="Bid on and collect your favorite celebs.")
 
 @bot.event
 async def on_ready():
