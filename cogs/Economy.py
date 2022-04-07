@@ -134,14 +134,24 @@ class Economy(commands.Cog):
         userID = ctx.author.id
         bal = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
         bal = bal.text.strip('\"')
-        if (amount <= int(bal)):
-            gBal = requests.get(getUser, params={"f1": "dabloons", "f2": user.id}, headers={"User-Agent": "XY"})
-            gBal = gBal.text.strip('\"')
-            requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)-amount, "f3": userID}, headers={"User-Agent": "XY"})
-            requests.post(updateUser, data={"f1": "dabloons", "f2": int(gBal)+amount, "f3": user.id}, headers={"User-Agent": "XY"})
-            await ctx.send(f"**{ctx.author.name}#{ctx.author.discriminator}** just gave **{amount}** dabloon(s) to **{user.name}#{user.discriminator}**")
+        if (amount == 0):
+            await ctx.send("Why are you trying to give someone nothing? What is wrong with you?")
+            return
+            
+        if (amount >= 1):
+            if(userID != user.id):
+                if (amount <= int(bal)):
+                    gBal = requests.get(getUser, params={"f1": "dabloons", "f2": user.id}, headers={"User-Agent": "XY"})
+                    gBal = gBal.text.strip('\"')
+                    requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)-amount, "f3": userID}, headers={"User-Agent": "XY"})
+                    requests.post(updateUser, data={"f1": "dabloons", "f2": int(gBal)+amount, "f3": user.id}, headers={"User-Agent": "XY"})
+                    await ctx.send(f"**{ctx.author.name}#{ctx.author.discriminator}** just gave **{amount}** dabloon(s) to **{user.name}#{user.discriminator}**")
+                else:
+                    await ctx.send("You don't have enough money. Next time don't bite off more than you can chew.")
+            else:
+                await ctx.send("Are you that lonely that you have to give yourself money? Sad.")
         else:
-            await ctx.send("You don't have enough money. Next time don't bite off more than you can chew.")
+            await ctx.send("You can't give someone negative dabloons. Are you dumb?")
 
 
 
