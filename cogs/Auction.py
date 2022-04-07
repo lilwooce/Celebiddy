@@ -113,7 +113,7 @@ class Auction(commands.Cog):
         user = await self.bot.fetch_user(winner)
         await user.send(f"Congrats! You won the auction for {name} with {amount} dabloon(s)")
         msg = await updateChannel.send(f"{name}'s auction is starting now, it ends in {time} hour(s). Good Luck!", embed=embed)
-        await msg.publish(f"{user.name}#{user.discriminator} won the auction for {name} with {amount} dabloons. Congrats!")
+        await msg.publish(f"**{user.name}#{user.discriminator}** won the auction for {name} with **{amount}** dabloon(s). Congrats!")
 
 async def exists(ctx, name, series):
     result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})

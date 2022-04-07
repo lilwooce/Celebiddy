@@ -139,7 +139,7 @@ class Economy(commands.Cog):
             gBal = gBal.text.strip('\"')
             requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)-amount, "f3": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dabloons", "f2": int(gBal)+amount, "f3": user.id}, headers={"User-Agent": "XY"})
-            await ctx.send(f"{ctx.author.name}#{ctx.author.discriminator} just gave {amount} dabloons to {user.name}#{user.discriminator}")
+            await ctx.send(f"**{ctx.author.name}#{ctx.author.discriminator}** just gave **{amount}** dabloon(s) to **{user.name}#{user.discriminator}**")
         else:
             await ctx.send("You don't have enough money. Next time don't bite off more than you can chew.")
 
