@@ -22,6 +22,7 @@ class Economy(commands.Cog):
         self.baseWork = 1000
         self.baseBeg = 5
         self.minCoinBid = 5
+        self.cfMulti = 1
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -106,13 +107,13 @@ class Economy(commands.Cog):
             tails = ["tails", "tail", "t"]
             result = random.randint(0,1)
             if (result == 0 and bet.lower() in heads):
-                total = amount * 1.5
+                total = amount * (1+self.cfMulti)
                 won = total - amount
                 afterBet = total + cBal
                 requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
                 await ctx.send(f"Congrats!!! You won {int(won)} dabloons")
             elif (result == 1 and bet.lower() in tails):
-                total = amount * 1.5
+                total = amount * (1+self.cfMulti)
                 won = total - amount
                 afterBet = int(total) + cBal
                 requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
