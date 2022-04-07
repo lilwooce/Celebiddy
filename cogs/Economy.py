@@ -129,6 +129,21 @@ class Economy(commands.Cog):
         else:
             await ctx.send("You are too poor to afford this bet. Check your balance before betting next time.")
 
+    @commands.command(aliases=['loan', 'lend'])
+    async def give(self, ctx, user: discord.User, amount: int):
+        userID = ctx.author.id
+        bal = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
+        bal = bal.text.strip('\"')
+        if (amount <= int(bal)):
+            gBal = requests.get(getUser, params={"f1": "dabloons", "f2": user.id}, headers={"User-Agent": "XY"})
+            gBal = gBal.text.strip('\"')
+            requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)-amount, "f3": userID}, headers={"User-Agent": "XY"})
+            requests.post(updateUser, data={"f1": "dabloons", "f2": int(gBal)+amount, "f3": user.id}, headers={"User-Agent": "XY"})
+            await ctx.send(f"{ctx.author.name}#{ctx.author.discriminator} just gave {amount} dabloons to {user.name}#{user.discriminator}")
+        else:
+            await ctx.send("You don't have enough money. Next time don't bite off more than you can chew.")
+
+
 
     
     async def trade(self, ctx):
