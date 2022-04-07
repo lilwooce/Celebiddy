@@ -86,7 +86,7 @@ class Auction(commands.Cog):
             bal = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
             hb = hb.text.strip('\"')
             bal = bal.text.strip('\"')
-            if(int(amount) >= int(bal)):  
+            if(int(amount) <= int(bal)):  
                 if (int(amount) > int(hb)):
                     requests.post(updateAuction, data={"f1": "highestBid", "f2": amount, "f3": name}, headers={"User-Agent": "XY"})
                     requests.post(updateAuction, data={"f1": "highestUser", "f2": userID, "f3": name}, headers={"User-Agent": "XY"})

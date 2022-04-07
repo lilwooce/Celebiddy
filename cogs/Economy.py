@@ -99,30 +99,35 @@ class Economy(commands.Cog):
     @commands.command(aliases=['cf'])
     async def coinflip(self, ctx, bet, amount: int):
         userID = ctx.author.id
-        if (amount >= self.minCoinBid):
-            bal = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
-            bal = bal.text.strip('\"')
-            cBal = int(bal) - amount
-            heads = ["heads", "head", "h"]
-            tails = ["tails", "tail", "t"]
-            result = random.randint(0,1)
-            if (result == 0 and bet.lower() in heads):
-                total = amount * (1+self.cfMulti)
-                won = total - amount
-                afterBet = total + cBal
-                requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
-                await ctx.send(f"Congrats!!! You won {int(won)} dabloons")
-            elif (result == 1 and bet.lower() in tails):
-                total = amount * (1+self.cfMulti)
-                won = total - amount
-                afterBet = int(total) + cBal
-                requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
-                await ctx.send(f"Congrats!!! You won {int(won)} dabloons")
+        bal = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        bal = bal.text.strip('\"')
+        if(amount <= int(bal)):
+            if (amount >= self.minCoinBid):
+                bal = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
+                bal = bal.text.strip('\"')
+                cBal = int(bal) - amount
+                heads = ["heads", "head", "h"]
+                tails = ["tails", "tail", "t"]
+                result = random.randint(0,1)
+                if (result == 0 and bet.lower() in heads):
+                    total = amount * (1+self.cfMulti)
+                    won = total - amount
+                    afterBet = total + cBal
+                    requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
+                    await ctx.send(f"Congrats!!! You won {int(won)} dabloons")
+                elif (result == 1 and bet.lower() in tails):
+                    total = amount * (1+self.cfMulti)
+                    won = total - amount
+                    afterBet = int(total) + cBal
+                    requests.post(updateUser, data={"f1": "dabloons", "f2": afterBet, "f3": userID}, headers={"User-Agent": "XY"})
+                    await ctx.send(f"Congrats!!! You won {int(won)} dabloons")
+                else:
+                    requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)-amount, "f3": userID}, headers={"User-Agent": "XY"})
+                    await ctx.send(f"You lost. lol. -{amount} dabloons")
             else:
-                requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)-amount, "f3": userID}, headers={"User-Agent": "XY"})
-                await ctx.send(f"You lost. lol. -{amount} dabloons")
+                await ctx.send("Bid more money you poor fuck. The minimum bid is 5 dabloons.")
         else:
-            await ctx.send("Bid more money you poor fuck. The minimum bid is 5 dabloons.")
+            await ctx.send("You are too poor to afford this bet. Check your balance before betting next time.")
 
 
     
