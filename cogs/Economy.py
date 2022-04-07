@@ -63,13 +63,13 @@ class Economy(commands.Cog):
         result = result[:-7]
         result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
+            next = datetime.now() + timedelta(hours=6)
+            requests.post(updateUser, data={"f1": "workTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             b = balance.text.strip('\"')
             b = int(b) + self.baseWork
             requests.post(updateUser, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"{ctx.author.mention} you recieved {self.baseWork} dabloons, you now have {b} dabloons.")
-            next = datetime.now() + timedelta(hours=6)
-            requests.post(updateUser, data={"f1": "workTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
             await ctx.channel.send(f"Your work cooldown is ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds/3600)} hour(s).")
@@ -84,14 +84,14 @@ class Economy(commands.Cog):
         result = result[:-7]
         result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
+            next = datetime.now() + timedelta(minutes=1)
+            requests.post(updateUser, data={"f1": "begTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             b = balance.text.strip('\"')
             add = self.baseBeg + random.randint(1, 10)
             b = int(b) + add
             requests.post(updateUser, data={"f1": "dabloons", "f2": b, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"{ctx.author.mention} you recieved {add} dabloons, you now have {b} dabloons.")
-            next = datetime.now() + timedelta(minutes=1)
-            requests.post(updateUser, data={"f1": "begTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
             await ctx.channel.send(f"Your beg cooldown is ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds)} second(s).")
@@ -137,7 +137,7 @@ class Economy(commands.Cog):
         if (amount == 0):
             await ctx.send("Why are you trying to give someone nothing? What is wrong with you?")
             return
-            
+
         if (amount >= 1):
             if(userID != user.id):
                 if (amount <= int(bal)):
