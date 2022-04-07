@@ -39,16 +39,20 @@ class Economy(commands.Cog):
         result = result[:-7]
         result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
+            next = datetime.now() + timedelta(hours=24)
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
+            requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             streak = requests.get(getUser, params={"f1": "dailyStreak", "f2": userID}, headers={"User-Agent": "XY"})
             r = balance.text.strip('\"')
             s = streak.text.strip('\"')
+            streakBuffer = result + timedelta(hours=6)
             r = int(r) + self.baseDaily + (100 * int(s))
+            if(rn <= streakBuffer):
+                requests.post(updateUser, data={"f1": "dailyStreak", "f2": int(s) + 1, "f3": userID}, headers={"User-Agent": "XY"})
+            else:
+                requests.post(updateUser, data={"f1": "dailyStreak", "f2": 0, "f3": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"{ctx.author.mention} you recieved {self.baseDaily + (100* int(s))} dabloons, you now have {r} dabloons.")
-            next = datetime.now() + timedelta(hours=24)
-            requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
-            requests.post(updateUser, data={"f1": "dailyStreak", "f2": int(s) + 1, "f3": userID}, headers={"User-Agent": "XY"})
         else:
             calc = result - rn
             await ctx.channel.send(f"Your daily cooldown is ongoing {ctx.author.mention}, please wait {math.floor(calc.seconds/3600)} hour(s).")
