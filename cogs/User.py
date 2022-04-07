@@ -70,6 +70,13 @@ class User(commands.Cog):
         d,o,a,i,owner = await getInfo(ctx, name, series)
         embed=discord.Embed(title=name, description=f"Works as a(n) {o} \n \n Owned by <@{owner}>", color=discord.Colour.random())
         embed.set_image(url=i)
+        if (await isAuction(ctx, name)):
+            hUser = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
+            hUser = hUser.text.strip("\"")
+            hBid = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
+            hBid = hBid.text.strip("\"")
+            hUser = self.bot.fetch_user(hUser)
+            embed.add_field(name="Highest Bid", value=f"The current highest bid for {name} is {hBid} dabloon(s) by {hUser.mention}")
         await ctx.channel.send(embed=embed)
 
 def calcTime(time):
@@ -126,6 +133,15 @@ async def getInfo(ctx, n, s):
         image = image.text.replace("\\", "")
         image = image.strip("\"")
         return description,occupation,attribute,image,owner
+
+async def isAuction(ctx, name):
+    result = requests.get(getAuction, params={"f1": "celebrity", "f2": name}, headers={"User-Agent": "XY"})
+    n = result.text.strip('\"')
+    if (name == n):
+        return True
+    else:
+        await ctx.channel.send("This celebrity is not currently in auction.")
+        return False
 
 def setup(bot):
     bot.add_cog(User(bot))
