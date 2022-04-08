@@ -22,18 +22,16 @@ addUser = os.getenv('ADD_USER')
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    async def cog_check(self, ctx):
-        owner = "347162620996091904"
-        return owner == ctx.author.id
 
     @commands.command(aliases=["am"])
-    async def addMoney(self, ctx, user, amount):
+    @commands.is_owner()
+    async def addMoney(self, ctx, user, amount: int):
         bal = requests.get(getUser, params={"f1": "dabloons", "f2": user}, headers={"User-Agent": "XY"})
         bal = bal.text.strip('\"')
         requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)+amount, "f3": user.id}, headers={"User-Agent": "XY"})
     
     @commands.command(aliases=['co'])
+    @commands.is_owner()
     async def changeOwnership(self, ctx, name, owner):
         requests.post(updateCeleb, data={"f1": "owner", "f2": owner, "f3": name}, headers={"User-Agent": "XY"})
 
