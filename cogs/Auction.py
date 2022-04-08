@@ -66,20 +66,11 @@ class Auction(commands.Cog):
             print(current.text)'''
     
     @commands.command()
-    async def bid(self, ctx):
+    async def bid(self, ctx, amount: int, *name):
+        name = " ".join(name)
         channel = ctx.channel
         rn = datetime.now()
         userID = ctx.author.id
-        
-        def check(m):
-            return m.author.id == userID and m.channel == channel
-
-        await ctx.channel.send("Celebrity Name: ")
-        name = await self.bot.wait_for('message', check=check, timeout=30)
-        name = name.content
-        await ctx.channel.send("Amount: ")
-        amount = await self.bot.wait_for('message', check=check, timeout=30)
-        amount = amount.content
 
         if (await isAuction(ctx, name)):
             hb = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
