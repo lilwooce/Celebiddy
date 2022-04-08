@@ -24,7 +24,6 @@ class Admin(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["am"])
-    @commands.is_owner()
     async def addMoney(self, ctx, user, amount: int):
         bal = requests.get(getUser, params={"f1": "dabloons", "f2": user}, headers={"User-Agent": "XY"})
         bal = bal.text.strip('\"')
@@ -37,4 +36,4 @@ class Admin(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Admin(bot))
+    bot.add_cog(Admin(bot)) 
