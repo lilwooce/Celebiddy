@@ -52,8 +52,7 @@ class Auction(commands.Cog):
         endTime = endTime.content
 
         d,o,a,i,owner = await getInfo(ctx, name, series)
-        embed=discord.Embed(title=name, description="", color=discord.Colour.random())
-        embed.add_field(name="Occupation", value=o, inline=True)
+        embed=discord.Embed(title=name, description=f"Works as a(n) {o} \n \n Owned by <@{owner}>", color=discord.Colour.random())
         embed.set_image(url=i)
         await ctx.channel.send(embed=embed)
         requests.post(addAuction, data={"f1": userID, "f2": name, "f3": 0, "f4": userID}, headers={"User-Agent": "XY"})
@@ -108,8 +107,8 @@ class Auction(commands.Cog):
         requests.post(updateCeleb, data={"f1": "owner", "f2": winner, "f3": name}, headers={"User-Agent": "XY"})
         user = await self.bot.fetch_user(winner)
         await user.send(f"Congrats! You won the auction for {name} with {amount} dabloon(s)")
-        msg = await updateChannel.send(f"{name}'s auction is starting now, it ends in {time} hour(s). Good Luck!", embed=embed)
-        await msg.publish(f"**{user.name}#{user.discriminator}** won the auction for {name} with **{amount}** dabloon(s). Congrats!")
+        msg = await updateChannel.send(f"**{user.name}#{user.discriminator}** won the auction for {name} with **{amount}** dabloon(s). Congrats!", embed=embed)
+        await msg.publish()
 
 async def exists(ctx, name, series):
     result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})

@@ -129,7 +129,7 @@ class Economy(commands.Cog):
                     requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)-amount, "f3": userID}, headers={"User-Agent": "XY"})
                     await ctx.send(f"You lost. lol. -{amount} dabloons")
             else:
-                await ctx.send("Bid more money you poor fuck. The minimum bid is 5 dabloons.")
+                await ctx.send("Bid more money you poor fuck. The minimum bet is 5 dabloons.")
         else:
             await ctx.send("You are too poor to afford this bet. Check your balance before betting next time.")
 
