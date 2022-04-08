@@ -42,6 +42,8 @@ class Admin(commands.Cog):
     @commands.is_owner()
     async def changeOwnership(self, ctx, owner, *name):
         name = " ".join(name)
+        print(owner)
+        print(name)
         requests.post(updateCeleb, data={"f1": "owner", "f2": owner, "f3": name}, headers={"User-Agent": "XY"})
         await ctx.send(f"Changed the ownership of {name} to {owner}")
 
