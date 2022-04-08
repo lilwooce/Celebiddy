@@ -32,7 +32,7 @@ class Auction(commands.Cog):
     @commands.is_owner()
     @commands.command()
     @commands.guild_only()
-    async def auction(self, ctx, minBid):
+    async def auction(self, ctx, minBid: int):
         self.minBid = minBid
         channel = ctx.channel
         rn = datetime.now()

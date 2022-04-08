@@ -75,7 +75,7 @@ class User(commands.Cog):
             hUser = hUser.text.strip("\"")
             hBid = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
             hBid = hBid.text.strip("\"")
-            hUser = self.bot.fetch_user(hUser)
+            hUser = await self.bot.fetch_user(hUser)
             embed.add_field(name="Highest Bid", value=f"The current highest bid for {name} is {hBid} dabloon(s) by {hUser.mention}")
         await ctx.channel.send(embed=embed)
 
