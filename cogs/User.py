@@ -65,9 +65,9 @@ class User(commands.Cog):
         await ctx.channel.send(embed=embed)
     
     @commands.command(aliases=['v'])
-    async def view(self, ctx, series=1, *name):
+    async def view(self, ctx, *name):
         name = " ".join(name)
-        d,o,a,i,owner = await getInfo(ctx, name, series)
+        d,o,a,i,owner = await getInfo(ctx, name)
         embed=discord.Embed(title=name, description=f"Works as a(n) {o} \n \n Owned by <@{owner}>", color=discord.Colour.random())
         embed.set_image(url=i)
         if (await isAuction(ctx, name)):
@@ -108,19 +108,17 @@ async def addAccount(ctx):
     obj = {"f1": userID}
     requests.post(addUser, data=obj, headers={"User-Agent": "XY"})
 
-async def exists(ctx, name, series):
+async def exists(ctx, name):
     result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
-    r = requests.get(getCeleb, params={"f1": "series", "f2": name}, headers={"User-Agent": "XY"})
     n = result.text.strip('\"')
-    s = r.text.strip('\"')
-    if (name == n and series == int(s)):
+    if (name == n):
         return True
     else:
         await ctx.channel.send("This celebrity does not exist in database please add.")
         return False
 
-async def getInfo(ctx, n, s):
-    if (await exists(ctx, n, s)):
+async def getInfo(ctx, n):
+    if (await exists(ctx, n)):
         description = requests.get(getCeleb, params={"f1": "description", "f2": n}, headers={"User-Agent": "XY"})
         description = description.text.strip('\"')
         occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": n}, headers={"User-Agent": "XY"})
