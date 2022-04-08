@@ -33,12 +33,17 @@ class Admin(commands.Cog):
         bal = requests.get(getUser, params={"f1": "dabloons", "f2": user}, headers={"User-Agent": "XY"})
         bal = bal.text.strip('\"')
         requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)+amount, "f3": user}, headers={"User-Agent": "XY"})
+        if (amount < 0) :
+            await ctx.send(f"Removed {amount * -1} dabloon(s) from {user}")
+        else:
+            await ctx.send(f"Added {amount} dabloon(s) to {user}")
     
     @commands.command(aliases=['co'])
     @commands.is_owner()
     async def changeOwnership(self, ctx, owner, *name):
         name = " ".join(name)
         requests.post(updateCeleb, data={"f1": "owner", "f2": owner, "f3": name}, headers={"User-Agent": "XY"})
+        await ctx.send(f"Changed the ownership of {name} to {owner}")
 
 
 def setup(bot):
