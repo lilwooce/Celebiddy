@@ -32,7 +32,7 @@ class Admin(commands.Cog):
     async def addMoney(self, ctx, user, amount: int):
         bal = requests.get(getUser, params={"f1": "dabloons", "f2": user}, headers={"User-Agent": "XY"})
         bal = bal.text.strip('\"')
-        requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)+amount, "f3": user.id}, headers={"User-Agent": "XY"})
+        requests.post(updateUser, data={"f1": "dabloons", "f2": int(bal)+amount, "f3": user}, headers={"User-Agent": "XY"})
     
     @commands.command(aliases=['co'])
     @commands.is_owner()
