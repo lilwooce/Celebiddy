@@ -23,6 +23,7 @@ removeAuction = os.getenv('REMOVE_AUCTION')
 class Auction(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.minBid = 0
     
     @commands.Cog.listener()
     async def on_ready(self):
@@ -31,7 +32,8 @@ class Auction(commands.Cog):
     @commands.is_owner()
     @commands.command()
     @commands.guild_only()
-    async def auction(self, ctx):
+    async def auction(self, ctx, minBid):
+        self.minBid = minBid
         channel = ctx.channel
         rn = datetime.now()
         userID = ctx.author.id
@@ -77,19 +79,22 @@ class Auction(commands.Cog):
             bal = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
             hb = hb.text.strip('\"')
             bal = bal.text.strip('\"')
-            if(int(amount) <= int(bal)):  
-                if (int(amount) > int(hb)):
-                    requests.post(updateAuction, data={"f1": "highestBid", "f2": amount, "f3": name}, headers={"User-Agent": "XY"})
-                    requests.post(updateAuction, data={"f1": "highestUser", "f2": userID, "f3": name}, headers={"User-Agent": "XY"})
-                    await ctx.send(f"You bid {amount} dabloon(s) on {name}")
+            if (int(amount) >= self.minBid):
+                if(int(amount) <= int(bal)):  
+                    if (int(amount) > int(hb)):
+                        requests.post(updateAuction, data={"f1": "highestBid", "f2": amount, "f3": name}, headers={"User-Agent": "XY"})
+                        requests.post(updateAuction, data={"f1": "highestUser", "f2": userID, "f3": name}, headers={"User-Agent": "XY"})
+                        await ctx.send(f"You bid {amount} dabloon(s) on {name}")
+                    else:
+                        await ctx.send(f"The current highest bid is {hb}. Bid higher loser.")
                 else:
-                    await ctx.send(f"The current highest bid is {hb}. Bid higher loser.")
+                    await ctx.send("You are too poor to afford this bid. Check your balance before bidding next time.")
             else:
-                await ctx.send("You are too poor to afford this bid. Check your balance before bidding next time.")
+                await ctx.send(f"The minimum bid is {self.minBid} bid higher.")
 
     async def stopAuction(self, ctx, time, name, embed):
         updateChannel = self.bot.get_channel(960595719704678451)
-        msg = await updateChannel.send(f"{name}'s auction is starting now, it ends in {time} hour(s). Good Luck!", embed=embed)
+        msg = await updateChannel.send(f"{name}'s auction is starting now, it ends in {time} hour(s). The minimum bid is {self.minBid}. Good Luck!", embed=embed)
         await msg.publish()
         await asyncio.sleep(time*3600)
         winner = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
