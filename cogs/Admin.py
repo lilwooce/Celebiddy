@@ -36,7 +36,8 @@ class Admin(commands.Cog):
     
     @commands.command(aliases=['co'])
     @commands.is_owner()
-    async def changeOwnership(self, ctx, name, owner):
+    async def changeOwnership(self, ctx, owner, *name):
+        name = " ".join(name)
         requests.post(updateCeleb, data={"f1": "owner", "f2": owner, "f3": name}, headers={"User-Agent": "XY"})
 
 
