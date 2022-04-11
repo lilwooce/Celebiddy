@@ -39,8 +39,7 @@ class Economy(commands.Cog):
         obj = {"f1": "dailyTimer", "f2": userID}
         checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
-        result = result[:-7]
-        result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
+        result = datetime.strptime(result, "%H:%M:%S")
         if (rn >= result):
             prevTime = result
             next = datetime.now() + timedelta(hours=24)
@@ -77,8 +76,7 @@ class Economy(commands.Cog):
         rn = datetime.now()
         checktime = requests.get(getUser, params={"f1": "workTimer", "f2": userID}, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
-        result = result[:-7]
-        result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
+        result = datetime.strptime(result, "%H:%M:%S")
         if (rn >= result):
             next = datetime.now() + timedelta(hours=6)
             next = datetime.strftime(next,"%H:%M:%S")
@@ -99,8 +97,7 @@ class Economy(commands.Cog):
         rn = datetime.now()
         checktime = requests.get(getUser, params={"f1": "begTimer", "f2": userID}, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
-        result = result[:-7]
-        result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
+        result = datetime.strptime(result, "%H:%M:%S")
         if (rn >= result):
             next = datetime.now() + timedelta(minutes=1)
             next = datetime.strftime(next,"%H:%M:%S")
