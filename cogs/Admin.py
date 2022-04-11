@@ -63,6 +63,7 @@ class Admin(commands.Cog):
         userID = user.id
         dailyCD = requests.get(getUser, params={"f1": "dailyTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
         dailyCD = dailyCD.text.strip('\"')
+        print(dailyCD)
         dailyCD = datetime.strptime(dailyCD, "%Y-%m-%d %H:%M:%S")
         requests.post(updateUser, data={"f1": "dailyTimer", "f2": dailyCD + timedelta(hours=amount), "f3": userID}, headers={"User-Agent": "XY"})
 
