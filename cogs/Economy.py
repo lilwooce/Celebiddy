@@ -24,6 +24,7 @@ class Economy(commands.Cog):
         self.minCoinBid = 5
         self.cfMulti = 1
         self.streakLimit = 5
+        self.streakAdd = 100
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -33,6 +34,7 @@ class Economy(commands.Cog):
     @commands.check(hasAccount)
     async def daily(self, ctx):
         userID = ctx.author.id
+        user = ctx.author
         rn = datetime.now()
         obj = {"f1": "dailyTimer", "f2": userID}
         checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
@@ -43,18 +45,20 @@ class Economy(commands.Cog):
             next = datetime.now() + timedelta(hours=24)
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
-            streak = requests.get(getUser, params={"f1": "dailyStreak", "f2": userID}, headers={"User-Agent": "XY"})
-            r = balance.text.strip('\"')
-            s = streak.text.strip('\"')
+            bal = balance.text.strip('\"')
             streakBuffer = result + timedelta(hours=6)
-            r = int(r) + self.baseDaily + (100 * int(s))
+            add = self.baseDaily
             if(rn <= streakBuffer):
+                streak = requests.get(getUser, params={"f1": "dailyStreak", "f2": userID}, headers={"User-Agent": "XY"})
+                s = streak.text.strip('\"')
                 if(int(s) < self.streakLimit):
-                    requests.post(updateUser, data={"f1": "dailyStreak", "f2": int(s) + 1, "f3": userID}, headers={"User-Agent": "XY"})
-                else:
-                    requests.post(updateUser, data={"f1": "dailyStreak", "f2": self.streakLimit, "f3": userID}, headers={"User-Agent": "XY"})
+                    add += self.streakAdd * int(s)
+                    newS = int(s) + 1
+                    requests.post(updateUser, data={"f1": "dailyStreak", "f2": newS, "f3": userID}, headers={"User-Agent": "XY"})
             else:
                 requests.post(updateUser, data={"f1": "dailyStreak", "f2": 0, "f3": userID}, headers={"User-Agent": "XY"})
+                await ctx.send(f"{user.name}#{user.discriminator}'s daily streak has reset")
+            r = int(bal) + add
             requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"{ctx.author.mention} you recieved {self.baseDaily + (100* int(s))} dabloons, you now have {r} dabloons.")
         else:
