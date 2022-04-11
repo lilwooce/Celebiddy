@@ -23,6 +23,7 @@ class Economy(commands.Cog):
         self.baseBeg = 5
         self.minCoinBid = 5
         self.cfMulti = 1
+        self.streakLimit = 5
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -48,7 +49,10 @@ class Economy(commands.Cog):
             streakBuffer = result + timedelta(hours=6)
             r = int(r) + self.baseDaily + (100 * int(s))
             if(rn <= streakBuffer):
-                requests.post(updateUser, data={"f1": "dailyStreak", "f2": int(s) + 1, "f3": userID}, headers={"User-Agent": "XY"})
+                if(int(s) < self.streakLimit):
+                    requests.post(updateUser, data={"f1": "dailyStreak", "f2": int(s) + 1, "f3": userID}, headers={"User-Agent": "XY"})
+                else:
+                    requests.post(updateUser, data={"f1": "dailyStreak", "f2": self.streakLimit, "f3": userID}, headers={"User-Agent": "XY"})
             else:
                 requests.post(updateUser, data={"f1": "dailyStreak", "f2": 0, "f3": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})

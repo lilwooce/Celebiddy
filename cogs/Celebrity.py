@@ -45,6 +45,13 @@ class Celebrity(commands.Cog):
         r = requests.post(updateCeleb, data=obj, headers={"User-Agent": "XY"})
         print(r.status_code)
         print(r.text)
+    
+
+    @commands.command(aliases=['ap'])
+    @commands.guild_only()
+    async def addPicture(self, ctx):
+        return
+
 
 def setup(bot):
     bot.add_cog(Celebrity(bot))

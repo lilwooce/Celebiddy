@@ -46,6 +46,13 @@ class Admin(commands.Cog):
         print(name)
         requests.post(updateCeleb, data={"f1": "owner", "f2": owner, "f3": name}, headers={"User-Agent": "XY"})
         await ctx.send(f"Changed the ownership of {name} to {owner}")
+    
+    async def resetCooldowns(self, ctx, user: discord.User):
+        userID = user.id
+        rTime = datetime.now()
+        requests.post(updateUser, data={"f1": "dailyTimer", "f2": rTime, "f3": userID}, headers={"User-Agent": "XY"})
+        requests.post(updateUser, data={"f1": "workTimer", "f2": rTime, "f3": userID}, headers={"User-Agent": "XY"})
+        requests.post(updateUser, data={"f1": "begTimer", "f2": rTime, "f3": userID}, headers={"User-Agent": "XY"})
 
 
 def setup(bot):
