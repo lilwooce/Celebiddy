@@ -47,14 +47,14 @@ class Economy(commands.Cog):
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             bal = balance.text.strip('\"')
+            streak = requests.get(getUser, params={"f1": "dailyStreak", "f2": userID}, headers={"User-Agent": "XY"})
+            s = streak.text.strip('\"')
             streakBuffer = prevTime + timedelta(hours=6)
             print(streakBuffer)
             add = self.baseDaily
             print(rn <= streakBuffer)
             print(rn > streakBuffer)
             if(rn <= streakBuffer):
-                streak = requests.get(getUser, params={"f1": "dailyStreak", "f2": userID}, headers={"User-Agent": "XY"})
-                s = streak.text.strip('\"')
                 if(int(s) < self.streakLimit):
                     add += self.streakAdd * int(s)
                     newS = int(s) + 1
