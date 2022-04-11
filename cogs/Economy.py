@@ -57,7 +57,7 @@ class Economy(commands.Cog):
                     requests.post(updateUser, data={"f1": "dailyStreak", "f2": newS, "f3": userID}, headers={"User-Agent": "XY"})
             else:
                 requests.post(updateUser, data={"f1": "dailyStreak", "f2": 0, "f3": userID}, headers={"User-Agent": "XY"})
-                await ctx.send(f"{user.name}#{user.discriminator}'s daily streak has reset")
+                await ctx.send(f"{user.mention}, your daily streak has been reset")
             r = int(bal) + add
             requests.post(updateUser, data={"f1": "dabloons", "f2": r, "f3": userID}, headers={"User-Agent": "XY"})
             await ctx.channel.send(f"{ctx.author.mention} you recieved {self.baseDaily + (100* int(s))} dabloons, you now have {r} dabloons.")
