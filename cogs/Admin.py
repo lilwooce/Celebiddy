@@ -55,7 +55,16 @@ class Admin(commands.Cog):
         requests.post(updateUser, data={"f1": "dailyTimer", "f2": rTime, "f3": userID}, headers={"User-Agent": "XY"})
         requests.post(updateUser, data={"f1": "workTimer", "f2": rTime, "f3": userID}, headers={"User-Agent": "XY"})
         requests.post(updateUser, data={"f1": "begTimer", "f2": rTime, "f3": userID}, headers={"User-Agent": "XY"})
-
+    
+    @commands.command(aliases=['ccd'])
+    @commands.is_owner()
+    async def changeCooldowns(self, ctx, user: discord.User, amount):
+        userID = user.id
+        dailyCD = requests.get(getUser, params={"f1": "dailyTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        dailyCD = dailyCD.text.strip('\"')
+        dailyCD = dailyCD[:-7]
+        dailyCD = datetime.strptime(dailyCD, "%Y-%m-%d %H:%M:%S")
+        requests.post(updateUser, data={"f1": "dailyTimer", "f2": dailyCD + timedelta(hours=amount), "f3": userID}, headers={"User-Agent": "XY"})
 
 def setup(bot):
     bot.add_cog(Admin(bot)) 
