@@ -47,6 +47,8 @@ class Admin(commands.Cog):
         requests.post(updateCeleb, data={"f1": "owner", "f2": owner, "f3": name}, headers={"User-Agent": "XY"})
         await ctx.send(f"Changed the ownership of {name} to {owner}")
     
+    @commands.command(aliases=['rcd'])
+    @commands.is_owner()
     async def resetCooldowns(self, ctx, user: discord.User):
         userID = user.id
         rTime = datetime.now()
