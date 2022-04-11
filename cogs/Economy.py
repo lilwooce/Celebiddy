@@ -47,7 +47,10 @@ class Economy(commands.Cog):
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             bal = balance.text.strip('\"')
             streakBuffer = result + timedelta(hours=6)
+            print(streakBuffer)
             add = self.baseDaily
+            print(rn <= streakBuffer)
+            print(rn > streakBuffer)
             if(rn <= streakBuffer):
                 streak = requests.get(getUser, params={"f1": "dailyStreak", "f2": userID}, headers={"User-Agent": "XY"})
                 s = streak.text.strip('\"')
