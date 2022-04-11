@@ -44,6 +44,7 @@ class Economy(commands.Cog):
         if (rn >= result):
             prevTime = result
             next = datetime.now() + timedelta(hours=24)
+            next = next[:-7]
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             bal = balance.text.strip('\"')
@@ -80,6 +81,7 @@ class Economy(commands.Cog):
         result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
             next = datetime.now() + timedelta(hours=6)
+            next = next[:-7]
             requests.post(updateUser, data={"f1": "workTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             b = balance.text.strip('\"')
@@ -101,6 +103,7 @@ class Economy(commands.Cog):
         result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
             next = datetime.now() + timedelta(minutes=1)
+            next = next[:-7]
             requests.post(updateUser, data={"f1": "begTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             b = balance.text.strip('\"')
