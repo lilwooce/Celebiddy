@@ -58,7 +58,7 @@ class Admin(commands.Cog):
     
     @commands.command(aliases=['ccd'])
     @commands.is_owner()
-    async def changeCooldowns(self, ctx, user: discord.User, amount):
+    async def changeCooldowns(self, ctx, user: discord.User, amount: int):
         userID = user.id
         dailyCD = requests.get(getUser, params={"f1": "dailyTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
         dailyCD = dailyCD.text.strip('\"')
