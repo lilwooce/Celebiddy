@@ -52,6 +52,7 @@ class Admin(commands.Cog):
     async def resetCooldowns(self, ctx, user: discord.User):
         userID = user.id
         rTime = datetime.now()
+        rTime = datetime.strftime(rTime,"%H:%M:%S")
         requests.post(updateUser, data={"f1": "dailyTimer", "f2": rTime, "f3": userID}, headers={"User-Agent": "XY"})
         requests.post(updateUser, data={"f1": "workTimer", "f2": rTime, "f3": userID}, headers={"User-Agent": "XY"})
         requests.post(updateUser, data={"f1": "begTimer", "f2": rTime, "f3": userID}, headers={"User-Agent": "XY"})
@@ -62,7 +63,7 @@ class Admin(commands.Cog):
         userID = user.id
         dailyCD = requests.get(getUser, params={"f1": "dailyTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
         dailyCD = dailyCD.text.strip('\"')
-        dailyCD = datetime.strptime(dailyCD, "%Y-%m-%d %H:%M:%S")
+        dailyCD = datetime.strptime(dailyCD, "%H:%M:%S")
         requests.post(updateUser, data={"f1": "dailyTimer", "f2": dailyCD + timedelta(hours=amount), "f3": userID}, headers={"User-Agent": "XY"})
 
 def setup(bot):
