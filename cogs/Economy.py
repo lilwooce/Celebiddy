@@ -42,11 +42,12 @@ class Economy(commands.Cog):
         result = result[:-7]
         result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
+            prevTime = result
             next = datetime.now() + timedelta(hours=24)
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             bal = balance.text.strip('\"')
-            streakBuffer = result + timedelta(hours=6)
+            streakBuffer = prevTime + timedelta(hours=6)
             print(streakBuffer)
             add = self.baseDaily
             print(rn <= streakBuffer)
