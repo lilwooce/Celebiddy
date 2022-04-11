@@ -42,13 +42,13 @@ class User(commands.Cog):
         rn = datetime.now()
         dailyCD = requests.get(getUser, params={"f1": "dailyTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
         dailyCD = dailyCD.text.strip('\"')
-        dailyCD = datetime.strptime(dailyCD, "%H:%M:%S")
+        dailyCD = datetime.strptime(dailyCD, "%Y-%m-%d %H:%M:%S")
         workCD = requests.get(getUser, params={"f1": "workTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
         workCD = workCD.text.strip('\"')
-        workCD = datetime.strptime(workCD, "%H:%M:%S")
+        workCD = datetime.strptime(workCD, "%Y-%m-%d %H:%M:%S")
         begCD = requests.get(getUser, params={"f1": "begTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
         begCD = begCD.text.strip('\"')
-        begCD = datetime.strptime(begCD, "%H:%M:%S")
+        begCD = datetime.strptime(begCD, "%Y-%m-%d %H:%M:%S")
 
         dailyCD = dailyCD - rn
         workCD = workCD - rn

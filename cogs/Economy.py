@@ -39,11 +39,11 @@ class Economy(commands.Cog):
         obj = {"f1": "dailyTimer", "f2": userID}
         checktime = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
-        result = datetime.strptime(result, "%H:%M:%S")
+        result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
             prevTime = result
             next = datetime.now() + timedelta(hours=24)
-            next = datetime.strftime(next,"%H:%M:%S")
+            next = datetime.strftime(next,"%Y-%m-%d %H:%M:%S")
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             requests.post(updateUser, data={"f1": "dailyTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             bal = balance.text.strip('\"')
@@ -76,10 +76,10 @@ class Economy(commands.Cog):
         rn = datetime.now()
         checktime = requests.get(getUser, params={"f1": "workTimer", "f2": userID}, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
-        result = datetime.strptime(result, "%H:%M:%S")
+        result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
             next = datetime.now() + timedelta(hours=6)
-            next = datetime.strftime(next,"%H:%M:%S")
+            next = datetime.strftime(next,"%Y-%m-%d %H:%M:%S")
             requests.post(updateUser, data={"f1": "workTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             b = balance.text.strip('\"')
@@ -97,10 +97,10 @@ class Economy(commands.Cog):
         rn = datetime.now()
         checktime = requests.get(getUser, params={"f1": "begTimer", "f2": userID}, headers={"User-Agent": "XY"})
         result = checktime.text.strip('\"')
-        result = datetime.strptime(result, "%H:%M:%S")
+        result = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
         if (rn >= result):
             next = datetime.now() + timedelta(minutes=1)
-            next = datetime.strftime(next,"%H:%M:%S")
+            next = datetime.strftime(next,"%Y-%m-%d %H:%M:%S")
             requests.post(updateUser, data={"f1": "begTimer", "f2": next, "f3": userID}, headers={"User-Agent": "XY"})
             balance = requests.get(getUser, params={"f1": "dabloons", "f2": userID}, headers={"User-Agent": "XY"})
             b = balance.text.strip('\"')
