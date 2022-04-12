@@ -75,21 +75,26 @@ class Auction(commands.Cog):
 
         if (await isAuction(ctx, name)):
             hb = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
+            hu = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
             bal = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
             hb = hb.text.strip('\"')
+            hu = hu.text.strip('\"')
             bal = bal.text.strip('\"')
-            if (int(amount) + self.minBid >= int(hb) + self.minBid):
-                if(int(amount) <= int(bal)):  
-                    if (int(amount) > int(hb)):
+            if (int(amount) <= int(bal)):
+                if(int(amount) > int(hb)):  
+                    if (int(amount) >= int(hb) + self.minBid):
                         requests.post(updateAuction, data={"f1": "highestBid", "f2": amount, "f3": name}, headers={"User-Agent": "XY"})
                         requests.post(updateAuction, data={"f1": "highestUser", "f2": userID, "f3": name}, headers={"User-Agent": "XY"})
+                        hU = await self.bot.fetch_user(hu)
+                        await hU.send(f"You were outbid on {name} by **{ctx.author.name}#{ctx.author.discriminator}**. The current highest bid is now **{amount}**.")
                         await ctx.send(f"You bid {amount} dabloon(s) on {name}")
                     else:
-                        await ctx.send(f"The current highest bid is {hb}. Bid higher loser.")
+                        await ctx.send(f"The minimum bid is {self.minBid} bid higher.")
                 else:
-                    await ctx.send("You are too poor to afford this bid. Check your balance before bidding next time.")
+                    await ctx.send(f"The current highest bid is {hb}. Bid higher loser.")
+                    
             else:
-                await ctx.send(f"The minimum bid is {self.minBid} bid higher.")
+                await ctx.send("You are too poor to afford this bid. Check your balance before bidding next time.")
 
     async def stopAuction(self, ctx, time, name, embed):
         updateChannel = self.bot.get_channel(960595719704678451)

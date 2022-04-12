@@ -18,6 +18,7 @@ updateAuction = os.getenv('UPDATE_AUCTION')
 getAuction = os.getenv('GET_AUCTION')
 removeAuction = os.getenv('REMOVE_AUCTION')
 addUser = os.getenv('ADD_USER')
+header={"User-Agent": "XY"}
 
 class User(commands.Cog):
     def __init__(self, bot):
@@ -32,7 +33,7 @@ class User(commands.Cog):
         if user is None:
             user = ctx.message.author
 
-        checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": user.id}, headers={"User-Agent": "XY"})
+        checkBalance = requests.get(getUser, params={"f1": "dabloons", "f2": user.id}, headers=header)
         checkBalance = checkBalance.text.strip('\"')
 
         await ctx.channel.send(f"{user.name}#{user.discriminator} currently has {checkBalance} dabloon(s).")
@@ -40,13 +41,13 @@ class User(commands.Cog):
     @commands.command(aliases=['cd'])
     async def cooldowns(self, ctx):
         rn = datetime.now()
-        dailyCD = requests.get(getUser, params={"f1": "dailyTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        dailyCD = requests.get(getUser, params={"f1": "dailyTimer", "f2": ctx.author.id}, headers=header)
         dailyCD = dailyCD.text.strip('\"')
         dailyCD = datetime.strptime(dailyCD, "%Y-%m-%d %H:%M:%S")
-        workCD = requests.get(getUser, params={"f1": "workTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        workCD = requests.get(getUser, params={"f1": "workTimer", "f2": ctx.author.id}, headers=header)
         workCD = workCD.text.strip('\"')
         workCD = datetime.strptime(workCD, "%Y-%m-%d %H:%M:%S")
-        begCD = requests.get(getUser, params={"f1": "begTimer", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        begCD = requests.get(getUser, params={"f1": "begTimer", "f2": ctx.author.id}, headers=header)
         begCD = begCD.text.strip('\"')
         begCD = datetime.strptime(begCD, "%Y-%m-%d %H:%M:%S")
 
@@ -68,13 +69,18 @@ class User(commands.Cog):
         embed=discord.Embed(title=name, description=f"Works as a(n) {o} \n \n Owned by <@{owner}>", color=discord.Colour.random())
         embed.set_image(url=i)
         if (await isAuction(ctx, name)):
-            hUser = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers={"User-Agent": "XY"})
+            hUser = requests.get(getAuction, params={"f1": "highestUser", "f2": name}, headers=header)
             hUser = hUser.text.strip("\"")
-            hBid = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers={"User-Agent": "XY"})
+            hBid = requests.get(getAuction, params={"f1": "highestBid", "f2": name}, headers=header)
             hBid = hBid.text.strip("\"")
             hUser = await self.bot.fetch_user(hUser)
             embed.add_field(name="Highest Bid", value=f"The current highest bid for {name} is {hBid} dabloon(s) by {hUser.mention}")
         await ctx.channel.send(embed=embed)
+    
+    @commands.command(aliases=['c'])
+    async def collection(self, ctx, user: discord.User):
+        celebs = requests.get(getCeleb, params={"f1": "*", "f2": ctx.author.id}, headers=header)
+        print(celebs)
 
 def calcTime(time):
     if (time.days < 0):
@@ -92,7 +98,7 @@ def calcTime(time):
 async def hasAccount(ctx):
     userID = ctx.author.id
     obj = {"f1": "user", "f2": userID}
-    result = requests.get(getUser, params=obj, headers={"User-Agent": "XY"})
+    result = requests.get(getUser, params=obj, headers=header)
     id = result.text.strip('\"')
     if (id == str(userID)):
         return True
@@ -103,10 +109,10 @@ async def hasAccount(ctx):
 async def addAccount(ctx):
     userID = ctx.author.id
     obj = {"f1": userID}
-    requests.post(addUser, data=obj, headers={"User-Agent": "XY"})
+    requests.post(addUser, data=obj, headers=header)
 
 async def exists(ctx, name):
-    result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers={"User-Agent": "XY"})
+    result = requests.get(getCeleb, params={"f1": "name", "f2": name}, headers=header)
     n = result.text.strip('\"')
     if (name == n):
         return True
@@ -116,21 +122,21 @@ async def exists(ctx, name):
 
 async def getInfo(ctx, n):
     if (await exists(ctx, n)):
-        description = requests.get(getCeleb, params={"f1": "description", "f2": n}, headers={"User-Agent": "XY"})
+        description = requests.get(getCeleb, params={"f1": "description", "f2": n}, headers=header)
         description = description.text.strip('\"')
-        occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": n}, headers={"User-Agent": "XY"})
+        occupation = requests.get(getCeleb, params={"f1": "occupation", "f2": n}, headers=header)
         occupation = occupation.text.strip('\"')
-        attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": n}, headers={"User-Agent": "XY"})
+        attribute = requests.get(getCeleb, params={"f1": "attribute", "f2": n}, headers=header)
         attribute = attribute.text.strip('\"')
-        owner = requests.get(getCeleb, params={"f1": "owner", "f2": n}, headers={"User-Agent": "XY"})
+        owner = requests.get(getCeleb, params={"f1": "owner", "f2": n}, headers=header)
         owner = owner.text.strip('\"')
-        image = requests.get(getCeleb, params={"f1": "image", "f2": n}, headers={"User-Agent": "XY"})
+        image = requests.get(getCeleb, params={"f1": "image", "f2": n}, headers=header)
         image = image.text.replace("\\", "")
         image = image.strip("\"")
         return description,occupation,attribute,image,owner
 
 async def isAuction(ctx, name):
-    result = requests.get(getAuction, params={"f1": "celebrity", "f2": name}, headers={"User-Agent": "XY"})
+    result = requests.get(getAuction, params={"f1": "celebrity", "f2": name}, headers=header)
     n = result.text.strip('\"')
     if (name == n):
         return True
