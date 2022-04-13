@@ -91,6 +91,7 @@ class User(commands.Cog):
             name = name[7:]
             description += f"\n **{name}**"
         
+        print(description)
         embed = discord.Embed(title="Celebrity Collection", desc = description)
         await ctx.send(embed=embed)
 
