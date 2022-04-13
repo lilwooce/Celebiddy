@@ -146,6 +146,7 @@ class Economy(commands.Cog):
             await ctx.send("You are too poor to afford this bet. Check your balance before betting next time.")
 
     @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
     async def bet(self, ctx, bet: int, amount: int):
         userID = ctx.author.id
         bal = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
