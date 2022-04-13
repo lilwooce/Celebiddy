@@ -83,7 +83,7 @@ class User(commands.Cog):
             user = ctx.message.author
 
         celebs = requests.get(getCeleb, params={"f1": "*", "f2": ctx.author.id}, headers=header)
-        print(celebs)
+        print(celebs.text)
 
 def calcTime(time):
     if (time.days < 0):
