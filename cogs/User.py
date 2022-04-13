@@ -88,7 +88,10 @@ class User(commands.Cog):
         names = celebs.split(',')
         print(names)
         for name in names:
-            n = name.split
+            n = name.split(':')
+            for nam in n:
+                trueName = nam.strip('\"')
+                print(trueName)
 
 def calcTime(time):
     if (time.days < 0):
