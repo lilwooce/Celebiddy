@@ -79,6 +79,9 @@ class User(commands.Cog):
     
     @commands.command(aliases=['c'])
     async def collection(self, ctx, user: discord.User):
+        if user is None:
+            user = ctx.message.author
+            
         celebs = requests.get(getCeleb, params={"f1": "*", "f2": ctx.author.id}, headers=header)
         print(celebs)
 
