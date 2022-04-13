@@ -145,6 +145,32 @@ class Economy(commands.Cog):
         else:
             await ctx.send("You are too poor to afford this bet. Check your balance before betting next time.")
 
+    @commands.command()
+    async def bet(self, ctx, bet: int, amount: int):
+        userID = ctx.author.id
+        bal = requests.get(getUser, params={"f1": "dabloons", "f2": ctx.author.id}, headers={"User-Agent": "XY"})
+        bal = bal.text.strip('\"')
+        bal = int(bal)
+
+        if (amount <= bal):
+            if(bet >= 1):
+                if (amount >= 0):
+                    result = random.randint(1,100)
+                    if (result == bet):
+                        won = amount * 100
+                        total = amount + bal
+                        requests.post(updateUser, data={"f1": "dabloons", "f2": total, "f3": userID}, headers={"User-Agent": "XY"})
+                        await ctx.send(f"Congrats!!! You won {int(won)} dabloons")
+                    else:
+                        await ctx.send(f"You lost. You chose **{bet}** but the bot chose **{result}**. Better luck next time.")
+                else:
+                    await ctx.send("Are you an idiot? You can't bet less than 1 dabloon.")
+            else:
+                await ctx.send("Please choose a number between 1 and 100 for your bet. Including 1 and 100.")
+        else:   
+            await ctx.send("You are too poor to afford this bet. Check your balance before betting next time.")
+
+
     @commands.command(aliases=['loan', 'lend'])
     async def give(self, ctx, user: discord.User, amount: int):
         userID = ctx.author.id
