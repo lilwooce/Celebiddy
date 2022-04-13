@@ -153,7 +153,7 @@ class Economy(commands.Cog):
         bal = int(bal)
 
         if (amount <= bal):
-            if(bet >= 1):
+            if(bet >= 1 and bet <= 100):
                 if (amount >= 0):
                     result = random.randint(1,100)
                     if (result == bet):
