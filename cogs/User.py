@@ -83,7 +83,7 @@ class User(commands.Cog):
             user = ctx.message.author
         
         desc = f"Celebrities owned by {user.mention} \n \n"
-        celebs = requests.get(getCeleb, params={"f1": "name", "f2": ctx.author.id, "f3": 'owner'}, headers=header)
+        celebs = requests.get(getCeleb, params={"f1": "name", "f2": user.id, "f3": 'owner'}, headers=header)
         celebs = celebs.text.strip('\"')
         names = celebs.split(',')
         for name in names:
