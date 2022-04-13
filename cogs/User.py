@@ -89,9 +89,9 @@ class User(commands.Cog):
         for name in names:
             name = name.strip('[{:]}\"')
             name = name[7:]
-            description += f"\n **{name}**"
+            desc += f"\n **{name}**"
         
-        print(description)
+        print(desc)
         embed = discord.Embed(title="Celebrity Collection", description = desc)
         await ctx.send(embed=embed)
 
