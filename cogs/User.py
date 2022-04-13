@@ -88,8 +88,10 @@ class User(commands.Cog):
         names = celebs.split(',')
         print(names)
         for name in names:
+            print(name)
             n = name.split(':')
             for nam in n:
+                print(nam)
                 trueName = nam.strip('\"')
                 print(trueName)
 
