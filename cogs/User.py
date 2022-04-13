@@ -83,9 +83,6 @@ class User(commands.Cog):
             user = ctx.message.author
         
         description = f"Celebrities owned by {user.mention}"
-        
-        embed = discord.Embed(title="Celebrity Collection", desc = description)
-
         celebs = requests.get(getCeleb, params={"f1": "name", "f2": ctx.author.id, "f3": 'owner'}, headers=header)
         celebs = celebs.text.strip('\"')
         names = celebs.split(',')
@@ -94,6 +91,7 @@ class User(commands.Cog):
             name = name[7:]
             description += f"\n **{name}**"
         
+        embed = discord.Embed(title="Celebrity Collection", desc = description)
         await ctx.send(embed=embed)
 
 def calcTime(time):
