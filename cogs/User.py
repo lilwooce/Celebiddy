@@ -82,7 +82,7 @@ class User(commands.Cog):
         if user is None:
             user = ctx.message.author
 
-        celebs = requests.get(getCeleb, params={"f1": "*", "f2": ctx.author.id, "f3": 'owner'}, headers=header)
+        celebs = requests.get(getCeleb, params={"f1": "name", "f2": ctx.author.id, "f3": 'owner'}, headers=header)
         print(celebs.text)
 
 def calcTime(time):
