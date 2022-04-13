@@ -158,10 +158,11 @@ class Economy(commands.Cog):
                     result = random.randint(1,100)
                     if (result == bet):
                         won = amount * 100
-                        total = amount + bal
+                        total = won + bal
                         requests.post(updateUser, data={"f1": "dabloons", "f2": total, "f3": userID}, headers={"User-Agent": "XY"})
                         await ctx.send(f"Congrats!!! You won {int(won)} dabloons")
                     else:
+                        requests.post(updateUser, data={"f1": "dabloons", "f2": bal-amount, "f3": userID}, headers={"User-Agent": "XY"})
                         await ctx.send(f"You lost. You chose **{bet}** but the bot chose **{result}**. Better luck next time.")
                 else:
                     await ctx.send("Are you an idiot? You can't bet less than 1 dabloon.")
