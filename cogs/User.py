@@ -88,7 +88,7 @@ class User(commands.Cog):
         print(names)
         for name in names:
             name = name.strip('[{:]}\"')
-            name = name[4:]
+            name = name[7:]
             print(name)
 
 def calcTime(time):
