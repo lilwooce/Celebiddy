@@ -81,15 +81,20 @@ class User(commands.Cog):
     async def collection(self, ctx, user: discord.User=None):
         if user is None:
             user = ctx.message.author
+        
+        description = f"Celebrities owned by {user.mention}"
+        
+        embed = discord.Embed(title="Celebrity Collection", desc = description)
 
         celebs = requests.get(getCeleb, params={"f1": "name", "f2": ctx.author.id, "f3": 'owner'}, headers=header)
         celebs = celebs.text.strip('\"')
         names = celebs.split(',')
-        print(names)
         for name in names:
             name = name.strip('[{:]}\"')
             name = name[7:]
-            print(name)
+            description += f"\n **{name}**"
+        
+        await ctx.send(embed=embed)
 
 def calcTime(time):
     if (time.days < 0):
