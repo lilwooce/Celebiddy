@@ -84,6 +84,11 @@ class User(commands.Cog):
 
         celebs = requests.get(getCeleb, params={"f1": "name", "f2": ctx.author.id, "f3": 'owner'}, headers=header)
         print(celebs.text)
+        celebs = celebs.text.strip('\"')
+        names = celebs.text.split(',')
+        print(names)
+        for name in names:
+            n = name.split
 
 def calcTime(time):
     if (time.days < 0):
