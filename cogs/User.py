@@ -89,6 +89,8 @@ class User(commands.Cog):
         for name in names:
             print(name)
             n = name.split(':')
+            for na in n:
+                print(na)
 
 def calcTime(time):
     if (time.days < 0):
