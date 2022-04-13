@@ -78,10 +78,10 @@ class User(commands.Cog):
         await ctx.channel.send(embed=embed)
     
     @commands.command(aliases=['c'])
-    async def collection(self, ctx, user: discord.User):
+    async def collection(self, ctx, user: discord.User=None):
         if user is None:
             user = ctx.message.author
-            
+
         celebs = requests.get(getCeleb, params={"f1": "*", "f2": ctx.author.id}, headers=header)
         print(celebs)
 
