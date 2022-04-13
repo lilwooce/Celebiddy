@@ -83,17 +83,12 @@ class User(commands.Cog):
             user = ctx.message.author
 
         celebs = requests.get(getCeleb, params={"f1": "name", "f2": ctx.author.id, "f3": 'owner'}, headers=header)
-        print(celebs.text)
         celebs = celebs.text.strip('\"')
         names = celebs.split(',')
         print(names)
         for name in names:
             print(name)
             n = name.split(':')
-            for nam in n:
-                print(nam)
-                trueName = nam.strip('\"')
-                print(trueName)
 
 def calcTime(time):
     if (time.days < 0):
