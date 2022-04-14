@@ -196,9 +196,6 @@ class Economy(commands.Cog):
                 await ctx.send("Are you that lonely that you have to give yourself money? Sad.")
         else:
             await ctx.send("You can't give someone negative dabloons. Are you dumb?")
-
-
-
     
     async def trade(self, ctx):
         return
