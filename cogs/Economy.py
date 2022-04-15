@@ -60,6 +60,7 @@ class Economy(commands.Cog):
                     newS = int(s) + 1
                     requests.post(updateUser, data={"f1": "dailyStreak", "f2": newS, "f3": userID}, headers={"User-Agent": "XY"})
             else:
+                add += self.streakAdd * int(s)
                 requests.post(updateUser, data={"f1": "dailyStreak", "f2": 0, "f3": userID}, headers={"User-Agent": "XY"})
                 await ctx.send(f"{user.mention}, your daily streak has been reset")
             r = int(bal) + add
